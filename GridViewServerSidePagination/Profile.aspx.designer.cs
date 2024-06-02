@@ -11,7 +11,7 @@ namespace GridViewServerSidePagination
 {
 
 
-    public partial class Employee
+    public partial class Profile
     {
 
         /// <summary>
@@ -33,15 +33,6 @@ namespace GridViewServerSidePagination
         protected global::System.Web.UI.WebControls.DropDownList ddlPageSize;
 
         /// <summary>
-        /// pnlPager control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlPager;
-
-        /// <summary>
         /// gvProfile control.
         /// </summary>
         /// <remarks>
@@ -49,6 +40,15 @@ namespace GridViewServerSidePagination
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvProfile;
+
+        /// <summary>
+        /// pager control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl pager;
 
         /// <summary>
         /// profileDataSource control.
