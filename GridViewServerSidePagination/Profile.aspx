@@ -18,45 +18,34 @@
     </script>
     <asp:UpdatePanel ID="upnEmployee" runat="server">
         <ContentTemplate>
-            Page Size:
-            <asp:DropDownList ID="ddlPageSize" runat="server" AutoPostBack="true" OnSelectedIndexChanged="PageSize_Changed">
-                <asp:ListItem Text="10" Value="10" />
-                <asp:ListItem Text="25" Value="25" />
-                <asp:ListItem Text="50" Value="50" />
-            </asp:DropDownList>
+                    Page Size:
+                    <asp:DropDownList ID="ddlPageSize" runat="server" AutoPostBack="true" OnSelectedIndexChanged="PageSize_Changed">
+                        <asp:ListItem Text="10" Value="10" />
+                        <asp:ListItem Text="25" Value="25" />
+                        <asp:ListItem Text="50" Value="50" />
+                    </asp:DropDownList>
+                    <asp:GridView ID="gvProfile" DataSourceID="profileDataSource" runat="server" AutoGenerateColumns="false" OnRowDataBound="gvProfile_RowDataBound" OnRowCommand="gvProfile_RowCommand"
+                        AllowPaging="true" PagerSettings-Mode="NextPreviousFirstLast" AllowSorting="true" CssClass="table table-striped table-bordered table-hover mt-3" PagerSettings-FirstPageText="First" PagerSettings-LastPageText="Last" PagerSettings-NextPageText="Next" PagerSettings-PreviousPageText="Previous" PagerSettings-Visible="True">
 
-            <asp:GridView ID="gvProfile" DataSourceID="profileDataSource" runat="server" AutoGenerateColumns="false" OnRowDataBound="gvProfile_RowDataBound" OnRowCommand="gvProfile_RowCommand"
-                AllowPaging="true" PagerSettings-Mode="NextPreviousFirstLast" AllowSorting="true" CssClass="table table-striped" PagerSettings-FirstPageText="First" PagerSettings-LastPageText="Last" PagerSettings-NextPageText="Next" PagerSettings-PreviousPageText="Previous" PagerSettings-Visible="True">
+                        <Columns>
+                            <asp:BoundField DataField="ProfileId" HeaderText="Profile Id" SortExpression="ProfileId"
+                                ItemStyle-Width="6%" />
+                            <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" ItemStyle-Width="13%" />
+                            <asp:BoundField DataField="Address" HeaderText="Address" SortExpression="Address"
+                                ItemStyle-Width="18%" />
+                            <asp:BoundField DataField="Email" HeaderText="Email" SortExpression="Email" ItemStyle-Width="8%" />
+                            <asp:BoundField DataField="Mobile" HeaderText="Mobile" SortExpression="Mobile" ItemStyle-Width="9%" />
+                            <asp:BoundField DataField="IsActive" HeaderText="Status" SortExpression="IsActive" ItemStyle-Width="4%" />
+                            <asp:TemplateField HeaderText="More Info">
+                                <ItemTemplate>
+                                    <asp:Button ID="btnMoreInfo" runat="server" Text="More Info" CssClass="btn btn-info" CausesValidation="false"
+                                        CommandName="ShowMoreInfo" CommandArgument='<%# Eval("ProfileId") %>' />
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                        </Columns>
+                    </asp:GridView>
 
-                <Columns>
-                    <asp:BoundField DataField="ProfileId" HeaderText="Profile Id" SortExpression="ProfileId"
-                        ItemStyle-Width="6%" />
-                    <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" ItemStyle-Width="13%" />
-                    <asp:BoundField DataField="Address" HeaderText="Address" SortExpression="Address"
-                        ItemStyle-Width="18%" />
-                    <asp:BoundField DataField="Email" HeaderText="Email" SortExpression="Email" ItemStyle-Width="8%" />
-                    <asp:BoundField DataField="Mobile" HeaderText="Mobile" SortExpression="Mobile" ItemStyle-Width="9%" />
-                    <asp:BoundField DataField="IsActive" HeaderText="Status" SortExpression="IsActive" ItemStyle-Width="4%" />
-                    <asp:TemplateField HeaderText="More Info">
-                        <ItemTemplate>
-                            <asp:Button ID="btnMoreInfo" runat="server" Text="More Info" CssClass="btn btn-info" CausesValidation="false"
-                                CommandName="ShowMoreInfo" CommandArgument='<%# Eval("ProfileId") %>' />
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                </Columns>
-            </asp:GridView>
-            <ul class="pagination" runat="server" id="pager">
-            </ul>
-
-            <%--            <asp:DataPager ID="dpProfile" runat="server" PageSize="10" PagedControlID="gvProfile">
-                <Fields>
-                    <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="true" ShowLastPageButton="true" />
-                </Fields>
-            </asp:DataPager>--%>
         </ContentTemplate>
-        <%--        <Triggers>
-            <asp:AsyncPostBackTrigger ControlID="gvProfile" EventName="RowCommand" />
-        </Triggers>--%>
     </asp:UpdatePanel>
 
     <!-- Modal -->
@@ -90,16 +79,4 @@
         </SelectParameters>
     </asp:ObjectDataSource>
 
-    <%--    <asp:ObjectDataSource ID="profileDataSource" runat="server"
-        TypeName="GridViewServerSidePagination.App_Code.ProfileData"
-        SelectMethod="GetProfiles"
-        SelectCountMethod="GetProfileCount"
-        StartRowIndexParameterName="startRowIndex"
-        MaximumRowsParameterName="maximumRows">
-        <SelectParameters>
-            <asp:Parameter Name="startRowIndex" Type="Int32" />
-            <asp:Parameter Name="pageSize" Type="Int32" />
-            <asp:Parameter Name="sortExpression" Type="String" />
-        </SelectParameters>
-    </asp:ObjectDataSource>--%>
 </asp:Content>

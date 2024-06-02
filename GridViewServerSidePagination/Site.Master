@@ -1,7 +1,6 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="GridViewServerSidePagination.SiteMaster" %>
 
 <!DOCTYPE html>
-
 <html lang="en">
 <head runat="server">
     <meta charset="utf-8" />
@@ -14,15 +13,12 @@
 
     <webopt:BundleReference runat="server" Path="~/Content/css" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    <%--<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />--%>
     <link href="styles.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <form runat="server">
         <asp:ScriptManager runat="server">
             <Scripts>
-                <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
-                <%--Framework Scripts--%>
                 <asp:ScriptReference Name="MsAjaxBundle" />
                 <asp:ScriptReference Name="jquery" />
                 <asp:ScriptReference Name="bootstrap" />
@@ -35,28 +31,42 @@
                 <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
                 <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
                 <asp:ScriptReference Name="WebFormsBundle" />
-                <%--Site Scripts--%>
             </Scripts>
         </asp:ScriptManager>
 
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <nav class="navbar navbar-expand-lg">
             <div class="container">
-                <a class="navbar-brand" runat="server" href="~/">Gridview Server-Side Paging and Modal Popup Demo</a>
+                <a class="navbar-brand" runat="server" href="~/">ASP.NET Web form Bootstrap Demo</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Profile">Profile</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/About">About</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Contact">Contact</a></li>
+                        <asp:Menu ID="mnMain" runat="server" Orientation="horizontal"
+                            DataSourceID="smdMain"
+                            IncludeStyleBlock="True"
+                            CssClass="navbar-nav" StaticMenuStyle-CssClass="nav-item"
+                            StaticSelectedStyle-CssClass="nav-item" StaticSubMenuIndent="16px"
+                            DynamicMenuStyle-CssClass="nav-item dropdown-menu"
+                            RenderingMode="List" role="menu" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+                            <LevelMenuItemStyles>
+                                <asp:MenuItemStyle CssClass="dropdown-item" />
+                            </LevelMenuItemStyles>
+                            <LevelSelectedStyles>
+                                <asp:MenuItemStyle CssClass="nav-item active" Font-Underline="False" />
+                            </LevelSelectedStyles>
+                            <StaticHoverStyle Font-Underline="true" />
+                            <StaticSelectedStyle Font-Bold="true" />
+                            <DynamicMenuItemStyle CssClass="dropdown-item" />
+                        </asp:Menu>
                     </ul>
                 </div>
             </div>
         </nav>
 
-        <div class="container body-content mt-5">
+        <asp:SiteMapDataSource ID="smdMain" runat="server" ShowStartingNode="False" />
+
+        <div class="container body-content">
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
             <hr />
@@ -65,8 +75,5 @@
             </footer>
         </div>
     </form>
-    <%--    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>--%>
 </body>
 </html>
