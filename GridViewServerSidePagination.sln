@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.34114.132
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34902.65
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridViewServerSidePagination", "GridViewServerSidePagination\GridViewServerSidePagination.csproj", "{D768C3E5-4449-4C21-BA5B-CABDC004B747}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebFormBootstrap", "GridViewServerSidePagination\WebFormBootstrap.csproj", "{D768C3E5-4449-4C21-BA5B-CABDC004B747}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
