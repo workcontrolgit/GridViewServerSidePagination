@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 
 
-namespace GridViewServerSidePagination
+namespace WebFormBoostrap
 {
     public partial class Contact
     {

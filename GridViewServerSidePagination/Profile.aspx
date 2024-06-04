@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Employee Page" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeBehind="Profile.aspx.cs" Inherits="GridViewServerSidePagination.Profile" %>
+﻿<%@ Page Title="Employee Page" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeBehind="Profile.aspx.cs" Inherits="WebFormBoostrap.Profile" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <script>
@@ -70,7 +70,7 @@
     </div>
 
     <asp:ObjectDataSource ID="profileDataSource" runat="server" SelectMethod="GetProfileData" EnablePaging="true" MaximumRowsParameterName="pageSize"
-        StartRowIndexParameterName="startRowIndex" TypeName="GridViewServerSidePagination.App_Code.ProfileDataSource" SelectCountMethod="TotalRowCount"
+        StartRowIndexParameterName="startRowIndex" TypeName="WebFormBoostrap.App_Code.ProfileDataSource" SelectCountMethod="TotalRowCount"
         SortParameterName="sortExpression">
         <SelectParameters>
             <asp:Parameter Name="startRowIndex" Type="Int32" />

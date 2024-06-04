@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GridViewServerSidePagination {
+namespace WebFormBoostrap {
     
     
     public partial class Site_Mobile {

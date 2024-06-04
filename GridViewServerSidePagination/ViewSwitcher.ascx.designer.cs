@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GridViewServerSidePagination {
+namespace WebFormBoostrap {
     
     
     public partial class ViewSwitcher {

@@ -1,4 +1,4 @@
-﻿namespace GridViewServerSidePagination.App_Code
+﻿namespace WebFormBoostrap.App_Code
 {
     public class Profile
     {

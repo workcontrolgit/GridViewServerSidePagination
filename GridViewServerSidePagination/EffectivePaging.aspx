@@ -30,7 +30,7 @@
     </div>
     </center>
     <asp:ObjectDataSource ID="profileDataSource" runat="server" SelectMethod="GetProfileData" EnablePaging="true" MaximumRowsParameterName="pageSize"
-        StartRowIndexParameterName="startRowIndex" TypeName="GridViewServerSidePagination.ProfileDataSource"  SelectCountMethod="TotalRowCount" 
+        StartRowIndexParameterName="startRowIndex" TypeName="WebFormBoostrap.ProfileDataSource"  SelectCountMethod="TotalRowCount" 
         SortParameterName="sortExpression">
         <SelectParameters>
             <asp:Parameter Name="startRowIndex" Type="Int32" />

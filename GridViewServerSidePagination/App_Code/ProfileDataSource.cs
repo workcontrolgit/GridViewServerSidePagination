@@ -4,7 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace GridViewServerSidePagination.App_Code
+namespace WebFormBoostrap.App_Code
 {
     [DataObject(true)]
     public class ProfileDataSource

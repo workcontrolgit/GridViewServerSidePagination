@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GridViewServerSidePagination.App_Code
+namespace WebFormBoostrap.App_Code
 {
     public class ProfileData
     {
