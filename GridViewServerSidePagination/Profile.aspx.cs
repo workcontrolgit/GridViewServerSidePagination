@@ -18,7 +18,7 @@ namespace WebFormBoostrap
             if (e.CommandName == "ShowMoreInfo")
             {
                 // Get the ProfileId from the CommandArgument
-                string profileId = e.CommandArgument.ToString();
+                int profileId = Convert.ToInt32(e.CommandArgument);
 
                 // Retrieve the data for the selected profile
                 // You can use your data access method to get the profile details
@@ -41,7 +41,7 @@ namespace WebFormBoostrap
             ScriptManager.GetCurrent(this).RegisterAsyncPostBackControl(lb);
         }
 
-        private App_Code.Profile GetProfileById(string profileId)
+        private App_Code.Profile GetProfileById(int profileId)
         {
             // Replace this with your actual data access code
             // This is just a placeholder

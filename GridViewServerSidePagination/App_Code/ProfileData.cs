@@ -2,7 +2,7 @@
 
 namespace WebFormBoostrap.App_Code
 {
-    public class ProfileData
+    public class ProfileData2
     {
         public List<Profile> GetProfiles(int startRowIndex, int maximumRows, string sortExpression)
         {
@@ -12,7 +12,7 @@ namespace WebFormBoostrap.App_Code
             {
                 profiles.Add(new Profile
                 {
-                    ProfileId = i.ToString(),
+                    ProfileId = i,
                     Name = "Name " + i,
                     Address = "Address " + i,
                     Email = "email" + i + "@example.com",

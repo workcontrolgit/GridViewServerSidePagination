@@ -28,14 +28,10 @@
                         AllowPaging="true" PagerSettings-Mode="NextPreviousFirstLast" AllowSorting="true" CssClass="table table-striped table-bordered table-hover mt-3" PagerSettings-FirstPageText="First" PagerSettings-LastPageText="Last" PagerSettings-NextPageText="Next" PagerSettings-PreviousPageText="Previous" PagerSettings-Visible="True">
 
                         <Columns>
-                            <asp:BoundField DataField="ProfileId" HeaderText="Profile Id" SortExpression="ProfileId"
-                                ItemStyle-Width="6%" />
-                            <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" ItemStyle-Width="13%" />
-                            <asp:BoundField DataField="Address" HeaderText="Address" SortExpression="Address"
-                                ItemStyle-Width="18%" />
-                            <asp:BoundField DataField="Email" HeaderText="Email" SortExpression="Email" ItemStyle-Width="8%" />
-                            <asp:BoundField DataField="Mobile" HeaderText="Mobile" SortExpression="Mobile" ItemStyle-Width="9%" />
-                            <asp:BoundField DataField="IsActive" HeaderText="Status" SortExpression="IsActive" ItemStyle-Width="4%" />
+                            <asp:BoundField DataField="ProfileId" HeaderText="Profile Id" SortExpression="ProfileId" />
+                            <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" />
+                            <asp:BoundField DataField="Email" HeaderText="Email" SortExpression="Email" />
+                            <asp:BoundField DataField="Mobile" HeaderText="Mobile" SortExpression="Mobile" />
                             <asp:TemplateField HeaderText="More Info">
                                 <ItemTemplate>
                                     <asp:Button ID="btnMoreInfo" runat="server" Text="More Info" CssClass="btn btn-info" CausesValidation="false"
@@ -69,8 +65,8 @@
         </div>
     </div>
 
-    <asp:ObjectDataSource ID="profileDataSource" runat="server" SelectMethod="GetProfileData" EnablePaging="true" MaximumRowsParameterName="pageSize"
-        StartRowIndexParameterName="startRowIndex" TypeName="WebFormBoostrap.App_Code.ProfileDataSource" SelectCountMethod="TotalRowCount"
+    <asp:ObjectDataSource ID="profileDataSource" runat="server" SelectMethod="GetProfiles" EnablePaging="true" MaximumRowsParameterName="pageSize"
+        StartRowIndexParameterName="startRowIndex" TypeName="WebFormBoostrap.App_Code.ProfileDataSource" SelectCountMethod="TotalRowCount" 
         SortParameterName="sortExpression">
         <SelectParameters>
             <asp:Parameter Name="startRowIndex" Type="Int32" />
