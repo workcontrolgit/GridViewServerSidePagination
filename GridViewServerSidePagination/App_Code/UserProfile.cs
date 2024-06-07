@@ -1,6 +1,6 @@
 ﻿namespace WebFormBoostrap.App_Code
 {
-    public class Profile
+    public class UserProfile
     {
         public int ProfileId { get; set; }
         public string Name { get; set; }

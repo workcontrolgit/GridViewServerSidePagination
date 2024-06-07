@@ -4,13 +4,13 @@ namespace WebFormBoostrap.App_Code
 {
     public class ProfileData2
     {
-        public List<Profile> GetProfiles(int startRowIndex, int maximumRows, string sortExpression)
+        public List<UserProfile> GetProfiles(int startRowIndex, int maximumRows, string sortExpression)
         {
             // Replace this with your actual data retrieval code
-            List<Profile> profiles = new List<Profile>();
+            List<UserProfile> profiles = new List<UserProfile>();
             for (int i = startRowIndex; i < startRowIndex + maximumRows; i++)
             {
-                profiles.Add(new Profile
+                profiles.Add(new UserProfile
                 {
                     ProfileId = i,
                     Name = "Name " + i,

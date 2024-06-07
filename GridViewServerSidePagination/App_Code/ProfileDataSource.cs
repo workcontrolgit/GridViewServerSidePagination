@@ -42,9 +42,9 @@ namespace WebFormBoostrap.App_Code
         }
 
         [DataObjectMethod(DataObjectMethodType.Select, true)]
-        public List<Profile> GetProfiles(int startRowIndex, int pageSize, string sortExpression)
+        public List<UserProfile> GetProfiles(int startRowIndex, int pageSize, string sortExpression)
         {
-            List<Profile> profiles = new List<Profile>();
+            List<UserProfile> profiles = new List<UserProfile>();
 
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["YourConnectionString"].ToString()))
             {
@@ -72,11 +72,11 @@ namespace WebFormBoostrap.App_Code
             return profiles;
         }
 
-        private static void GetProfileFromDatatable(List<Profile> profiles, DataTable profileDataTable)
+        private static void GetProfileFromDatatable(List<UserProfile> profiles, DataTable profileDataTable)
         {
             foreach (DataRow row in profileDataTable.Rows)
             {
-                Profile profile1 = new Profile
+                UserProfile profile = new UserProfile
                 {
                     ProfileId = Convert.ToInt32(row["ProfileId"]),
                     Name = row["Name"].ToString(),
@@ -85,7 +85,6 @@ namespace WebFormBoostrap.App_Code
                     Mobile = row["Mobile"].ToString(),
                     IsActive = row["IsActive"].ToString()
                 };
-                Profile profile = profile1;
 
                 profiles.Add(profile);
             }

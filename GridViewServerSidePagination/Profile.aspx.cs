@@ -41,11 +41,11 @@ namespace WebFormBoostrap
             ScriptManager.GetCurrent(this).RegisterAsyncPostBackControl(lb);
         }
 
-        private App_Code.Profile GetProfileById(int profileId)
+        private App_Code.UserProfile GetProfileById(int profileId)
         {
             // Replace this with your actual data access code
             // This is just a placeholder
-            return new App_Code.Profile
+            return new App_Code.UserProfile
             {
                 ProfileId = profileId,
                 Name = "John Doe",
