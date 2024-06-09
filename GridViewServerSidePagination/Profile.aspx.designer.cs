@@ -42,13 +42,13 @@ namespace WebFormBoostrap
         protected global::System.Web.UI.WebControls.GridView gvProfile;
 
         /// <summary>
-        /// profileId control.
+        /// hdnprofileId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField profileId;
+        protected global::System.Web.UI.WebControls.HiddenField hdnprofileId;
 
         /// <summary>
         /// txtName control.

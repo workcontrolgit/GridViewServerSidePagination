@@ -1,4 +1,5 @@
-﻿namespace WebFormBoostrap.App_Code
+﻿namespace WebFormBoostrap.Business
+
 {
     public class UserProfile
     {

@@ -2,21 +2,11 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <script>
-        function showModal(profileId, name, address, email, mobile, status) {
-            var modal = $('#profileModal');
-            modal.find('.modal-title').text('Profile Info for ' + name);
-            modal.find('.modal-body #profileInfo').html(
-                '<p>Profile ID: ' + profileId + '</p>' +
-                '<p>Name: ' + name + '</p>' +
-                '<p>Address: ' + address + '</p>' +
-                '<p>Email: ' + email + '</p>' +
-                '<p>Mobile: ' + mobile + '</p>' +
-                '<p>Status: ' + status + '</p>'
-            );
-            modal.modal('show');
+        function showModal() {
+            $('#profileModal').modal('show');
         }
     </script>
-    <asp:UpdatePanel ID="upnEmployee" runat="server">
+    <asp:UpdatePanel ID="upnEmployee" runat="server" UpdateMode="Conditional">
         <ContentTemplate>
                     Page Size:
                     <asp:DropDownList ID="ddlPageSize" runat="server" AutoPostBack="true" OnSelectedIndexChanged="PageSize_Changed">
@@ -40,10 +30,6 @@
                             </asp:TemplateField>
                         </Columns>
                     </asp:GridView>
-
-        </ContentTemplate>
-    </asp:UpdatePanel>
-
 <!-- Modal -->
 <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -55,7 +41,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <asp:HiddenField ID="profileId" runat="server" />
+                <asp:HiddenField ID="hdnprofileId" runat="server" />
                 <div class="form-group">
                     <label for="txtName">Name</label>
                     <asp:TextBox ID="txtName" runat="server" CssClass="form-control"></asp:TextBox>
@@ -84,10 +70,14 @@
         </div>
     </div>
 </div>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+
+
 
 
     <asp:ObjectDataSource ID="profileDataSource" runat="server" SelectMethod="GetProfiles" EnablePaging="true" MaximumRowsParameterName="pageSize"
-        StartRowIndexParameterName="startRowIndex" TypeName="WebFormBoostrap.App_Code.ProfileRepository" SelectCountMethod="TotalRowCount" 
+        StartRowIndexParameterName="startRowIndex" TypeName="WebFormBoostrap.Business.ProfileRepository" SelectCountMethod="TotalRowCount" 
         SortParameterName="sortExpression">
         <SelectParameters>
             <asp:Parameter Name="startRowIndex" Type="Int32" />

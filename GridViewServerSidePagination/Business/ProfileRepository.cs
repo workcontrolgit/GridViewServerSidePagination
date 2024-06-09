@@ -4,7 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace WebFormBoostrap.App_Code
+namespace WebFormBoostrap.Business
 {
     public class ProfileRepository
     {
@@ -107,6 +107,37 @@ namespace WebFormBoostrap.App_Code
                     cmdDelete.ExecuteNonQuery();
                 }
             }
+        }
+
+        public UserProfile GetProfileById(int profileId)
+        {
+            UserProfile profile = null;
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["YourConnectionString"].ToString()))
+            {
+                using (SqlCommand cmdSelect = new SqlCommand("Profile_Get_By_Id", conn))
+                {
+                    cmdSelect.CommandType = CommandType.StoredProcedure;
+                    cmdSelect.Parameters.AddWithValue("@ProfileId", profileId);
+
+                    conn.Open();
+                    using (SqlDataReader reader = cmdSelect.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            profile = new UserProfile
+                            {
+                                ProfileId = Convert.ToInt32(reader["ProfileId"]),
+                                Name = reader["Name"].ToString(),
+                                Address = reader["Address"].ToString(),
+                                Email = reader["Email"].ToString(),
+                                Mobile = reader["Mobile"].ToString(),
+                                IsActive = reader["IsActive"].ToString()
+                            };
+                        }
+                    }
+                }
+            }
+            return profile;
         }
 
         private static void GetProfileFromDatatable(List<UserProfile> profiles, DataTable profileDataTable)
