@@ -341,9 +341,7 @@
     <Content Include="Web.sitemap" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Code\ProfileDataSource.cs" />
-    <Content Include="App_Code\ProfileData.cs" />
-    <Content Include="App_Code\Export.cs" />
+    <Content Include="App_Code\ProfileRepository.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="About.aspx.cs">
       <DependentUpon>About.aspx</DependentUpon>

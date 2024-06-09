@@ -41,6 +41,55 @@ namespace WebFormBoostrap
             ScriptManager.GetCurrent(this).RegisterAsyncPostBackControl(lb);
         }
 
+        protected void SaveProfile(object sender, EventArgs e)
+        {
+            var _profileId = profileId.Value;
+            var _name = txtName.Text;
+            var _address = txtAddress.Text;
+            var _email = txtEmail.Text;
+            var _mobile = txtMobile.Text;
+            var _status = txtStatus.Text;
+
+            if (string.IsNullOrEmpty(_profileId))
+            {
+                CreateProfile(_name, _address, _email, _mobile, _status);
+            }
+            else
+            {
+                UpdateProfile(Convert.ToInt32(profileId), _name, _address, _email, _mobile, _status);
+            }
+
+            gvProfile.DataBind();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "hideModal", "$('#profileModal').modal('hide');", true);
+        }
+
+        private void CreateProfile(string name, string address, string email, string mobile, string status)
+        {
+            var profile = new App_Code.UserProfile
+            {
+                Name = name,
+                Address = address,
+                Email = email,
+                Mobile = mobile,
+                IsActive = status
+            };
+            new ProfileRepository().CreateProfile(profile);
+        }
+
+        private void UpdateProfile(int profileId, string name, string address, string email, string mobile, string status)
+        {
+            var profile = new App_Code.UserProfile
+            {
+                ProfileId = profileId,
+                Name = name,
+                Address = address,
+                Email = email,
+                Mobile = mobile,
+                IsActive = status
+            };
+            new ProfileRepository().UpdateProfile(profile);
+        }
+
         private App_Code.UserProfile GetProfileById(int profileId)
         {
             // Replace this with your actual data access code
@@ -55,18 +104,5 @@ namespace WebFormBoostrap
                 IsActive = "Active"
             };
         }
-    }
-
-    public class Employee
-    {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public string Address { get; set; }
-        public string Email { get; set; }
-        public string Mobile { get; set; }
-        public bool IsPermanent { get; set; }
-        public int RegdNo { get; set; }
-        public int Salary { get; set; }
-        public string ProfileURL { get; set; }
     }
 }
