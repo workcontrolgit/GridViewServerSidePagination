@@ -1,4 +1,4 @@
-﻿namespace WebFormBoostrap.Business
+﻿namespace WebFormBoostrap.BusinessLayer.Models
 
 {
     public class UserProfile

@@ -1,13 +1,19 @@
 ﻿using System;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using WebFormBoostrap.Business;
+using WebFormBoostrap.BusinessLayer.Models;
+using WebFormBoostrap.BusinessLayer.Services;
 
 namespace WebFormBoostrap
 {
     public partial class Profile : System.Web.UI.Page
     {
-        //private string connectionString = ConfigurationManager.ConnectionStrings["YourConnectionString"].ConnectionString;
+        private readonly ProfileService _profileService;
+
+        public Profile()
+        {
+            _profileService = new ProfileService();
+        }
 
         protected void PageSize_Changed(object sender, EventArgs e)
         {
@@ -18,17 +24,11 @@ namespace WebFormBoostrap
         {
             if (e.CommandName == "EditRow")
             {
-                // Get the ProfileId from the CommandArgument
                 int profileId = Convert.ToInt32(e.CommandArgument);
-
-                // Retrieve the data for the selected profile
-                // You can use your data access method to get the profile details
-                // For example:
-                var profile = GetProfileById(profileId);
+                var profile = _profileService.GetProfileById(profileId);
 
                 if (profile != null)
                 {
-                    // Set the modal content
                     lblModalContent.Text = "Edit Profile";
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "OpenModal", "showModal()", true);
                     hdnprofileId.Value = profile.ProfileId.ToString();
@@ -43,7 +43,7 @@ namespace WebFormBoostrap
             else if (e.CommandName == "DeleteRow")
             {
                 int profileId = Convert.ToInt32(e.CommandArgument);
-                new ProfileRepository().DeleteProfile(profileId);
+                _profileService.DeleteProfile(profileId);
                 gvProfile.DataBind();
             }
         }
@@ -58,20 +58,23 @@ namespace WebFormBoostrap
 
         protected void SaveProfile(object sender, EventArgs e)
         {
-            var _profileId = hdnprofileId.Value;
-            var _name = txtName.Text;
-            var _address = txtAddress.Text;
-            var _email = txtEmail.Text;
-            var _mobile = txtMobile.Text;
-            var _status = txtStatus.Text;
-
-            if (string.IsNullOrEmpty(_profileId))
+            var profile = new UserProfile
             {
-                CreateProfile(_name, _address, _email, _mobile, _status);
+                ProfileId = string.IsNullOrEmpty(hdnprofileId.Value) ? 0 : Convert.ToInt32(hdnprofileId.Value),
+                Name = txtName.Text,
+                Address = txtAddress.Text,
+                Email = txtEmail.Text,
+                Mobile = txtMobile.Text,
+                IsActive = txtStatus.Text
+            };
+
+            if (profile.ProfileId == 0)
+            {
+                _profileService.CreateProfile(profile);
             }
             else
             {
-                UpdateProfile(Convert.ToInt32(hdnprofileId.Value), _name, _address, _email, _mobile, _status);
+                _profileService.UpdateProfile(profile);
             }
 
             gvProfile.DataBind();
@@ -91,38 +94,6 @@ namespace WebFormBoostrap
             txtStatus.Text = string.Empty;
 
             ScriptManager.RegisterStartupScript(this, this.GetType(), "OpenModal", "showModal()", true);
-        }
-
-        private void CreateProfile(string name, string address, string email, string mobile, string status)
-        {
-            var profile = new Business.UserProfile
-            {
-                Name = name,
-                Address = address,
-                Email = email,
-                Mobile = mobile,
-                IsActive = status
-            };
-            new ProfileRepository().CreateProfile(profile);
-        }
-
-        private void UpdateProfile(int profileId, string name, string address, string email, string mobile, string status)
-        {
-            var profile = new Business.UserProfile
-            {
-                ProfileId = profileId,
-                Name = name,
-                Address = address,
-                Email = email,
-                Mobile = mobile,
-                IsActive = status
-            };
-            new ProfileRepository().UpdateProfile(profile);
-        }
-
-        private UserProfile GetProfileById(int profileId)
-        {
-            return new ProfileRepository().GetProfileById(profileId);
         }
     }
 }

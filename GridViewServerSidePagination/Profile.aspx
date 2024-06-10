@@ -96,7 +96,7 @@
 
 
     <asp:ObjectDataSource ID="profileDataSource" runat="server" SelectMethod="GetProfiles" EnablePaging="true" MaximumRowsParameterName="pageSize"
-        StartRowIndexParameterName="startRowIndex" TypeName="WebFormBoostrap.Business.ProfileRepository" SelectCountMethod="TotalRowCount" 
+        StartRowIndexParameterName="startRowIndex" TypeName="WebFormBoostrap.DataLayer.ProfileRepository" SelectCountMethod="TotalRowCount" 
         SortParameterName="sortExpression">
         <SelectParameters>
             <asp:Parameter Name="startRowIndex" Type="Int32" />
