@@ -5,15 +5,28 @@
         function showModal() {
             $('#profileModal').modal('show');
         }
+        function hideModal() {
+            $('.modal').remove();
+            $('.modal-backdrop').remove();
+        }    
+        function confirmDelete() {
+            return confirm("Are you sure you want to delete this record?");
+        }
     </script>
-    <asp:UpdatePanel ID="upnEmployee" runat="server" UpdateMode="Conditional">
+    <asp:UpdatePanel ID="upnContent" runat="server" UpdateMode="Conditional">
         <ContentTemplate>
-                    Page Size:
-                    <asp:DropDownList ID="ddlPageSize" runat="server" AutoPostBack="true" OnSelectedIndexChanged="PageSize_Changed">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <asp:Button ID="btnAddProfile" runat="server" Text="Add Profile" OnClick="btnAddProfile_Click" CssClass="btn btn-primary" />
+                <div>
+                    <label class="mr-2">Page Size:</label>
+                    <asp:DropDownList ID="ddlPageSize" runat="server" AutoPostBack="true" OnSelectedIndexChanged="PageSize_Changed" CssClass="form-control d-inline-block w-auto">
                         <asp:ListItem Text="10" Value="10" />
                         <asp:ListItem Text="25" Value="25" />
                         <asp:ListItem Text="50" Value="50" />
                     </asp:DropDownList>
+                </div>
+            </div>
+
                     <asp:GridView ID="gvProfile" DataSourceID="profileDataSource" runat="server" AutoGenerateColumns="false" OnRowDataBound="gvProfile_RowDataBound" OnRowCommand="gvProfile_RowCommand"
                         AllowPaging="true" PagerSettings-Mode="NextPreviousFirstLast" AllowSorting="true" CssClass="table table-striped table-bordered table-hover mt-3" PagerSettings-FirstPageText="First" PagerSettings-LastPageText="Last" PagerSettings-NextPageText="Next" PagerSettings-PreviousPageText="Previous" PagerSettings-Visible="True">
 
@@ -24,8 +37,9 @@
                             <asp:BoundField DataField="Mobile" HeaderText="Mobile" SortExpression="Mobile" />
                             <asp:TemplateField HeaderText="Action">
                                 <ItemTemplate>
-                                    <asp:Button ID="btnMoreInfo" runat="server" Text="Edit" CssClass="btn btn-info" CausesValidation="false"
-                                        CommandName="ShowMoreInfo" CommandArgument='<%# Eval("ProfileId") %>' />
+                                    <asp:Button ID="btnEdit" runat="server" Text="Edit" CssClass="btn btn-info" CausesValidation="false"
+                                        CommandName="EditRow" CommandArgument='<%# Eval("ProfileId") %>' />
+<asp:Button ID="btnDelete" runat="server" CommandName="DeleteRow" CommandArgument='<%# Eval("ProfileId") %>' Text="Delete" CssClass="btn btn-danger" OnClientClick="return confirmDelete();" />
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>
@@ -35,13 +49,18 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="profileModalLabel">Profile Info</h5>
+                <h5 class="modal-title" id="profileModalLabel"><asp:Label ID="lblModalContent" runat="server" Text="Initial Content" CssClass="form-label"></asp:Label></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
+                
                 <asp:HiddenField ID="hdnprofileId" runat="server" />
+                <div class="form-group">
+                    <label for="lblProfileId">Profile Id</label>
+                    <asp:Label ID="lblProfileId" runat="server" readonly  CssClass="form-control"></asp:Label>
+                </div>
                 <div class="form-group">
                     <label for="txtName">Name</label>
                     <asp:TextBox ID="txtName" runat="server" CssClass="form-control"></asp:TextBox>

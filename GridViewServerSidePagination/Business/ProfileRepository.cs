@@ -98,7 +98,7 @@ namespace WebFormBoostrap.Business
         {
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["YourConnectionString"].ToString()))
             {
-                using (SqlCommand cmdDelete = new SqlCommand("Profile_DELETE", conn))
+                using (SqlCommand cmdDelete = new SqlCommand("Profile_Delete", conn))
                 {
                     cmdDelete.CommandType = CommandType.StoredProcedure;
                     cmdDelete.Parameters.AddWithValue("@ProfileId", profileId);

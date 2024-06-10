@@ -16,7 +16,7 @@ namespace WebFormBoostrap
 
         protected void gvProfile_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            if (e.CommandName == "ShowMoreInfo")
+            if (e.CommandName == "EditRow")
             {
                 // Get the ProfileId from the CommandArgument
                 int profileId = Convert.ToInt32(e.CommandArgument);
@@ -29,15 +29,22 @@ namespace WebFormBoostrap
                 if (profile != null)
                 {
                     // Set the modal content
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "showModal", "$('#profileModal').modal('show');", true);
+                    lblModalContent.Text = "Edit Profile";
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "OpenModal", "showModal()", true);
                     hdnprofileId.Value = profile.ProfileId.ToString();
+                    lblProfileId.Text = profile.ProfileId.ToString();
                     txtName.Text = profile.Name;
                     txtAddress.Text = profile.Address;
                     txtEmail.Text = profile.Email;
                     txtMobile.Text = profile.Mobile;
                     txtStatus.Text = profile.IsActive;
-                    //upnEmployee.Update();
                 }
+            }
+            else if (e.CommandName == "DeleteRow")
+            {
+                int profileId = Convert.ToInt32(e.CommandArgument);
+                new ProfileRepository().DeleteProfile(profileId);
+                gvProfile.DataBind();
             }
         }
 
@@ -45,7 +52,7 @@ namespace WebFormBoostrap
         {
             if (e.Row.RowType != DataControlRowType.DataRow) return;
 
-            Button lb = e.Row.FindControl("btnMoreInfo") as Button;
+            Button lb = e.Row.FindControl("btnEdit") as Button;
             ScriptManager.GetCurrent(this).RegisterAsyncPostBackControl(lb);
         }
 
@@ -68,7 +75,22 @@ namespace WebFormBoostrap
             }
 
             gvProfile.DataBind();
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "hideModal", "$('#profileModal').modal('hide');", true);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "CloseModal", "hideModal()", true);
+            upnContent.Update();
+        }
+
+        protected void btnAddProfile_Click(object sender, EventArgs e)
+        {
+            lblModalContent.Text = "Add Profile";
+            hdnprofileId.Value = string.Empty;
+            lblProfileId.Text = string.Empty;
+            txtName.Text = string.Empty;
+            txtAddress.Text = string.Empty;
+            txtEmail.Text = string.Empty;
+            txtMobile.Text = string.Empty;
+            txtStatus.Text = string.Empty;
+
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "OpenModal", "showModal()", true);
         }
 
         private void CreateProfile(string name, string address, string email, string mobile, string status)

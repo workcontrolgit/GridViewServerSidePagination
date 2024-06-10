@@ -15,13 +15,22 @@ namespace WebFormBoostrap
     {
 
         /// <summary>
-        /// upnEmployee control.
+        /// upnContent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel upnEmployee;
+        protected global::System.Web.UI.UpdatePanel upnContent;
+
+        /// <summary>
+        /// btnAddProfile control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddProfile;
 
         /// <summary>
         /// ddlPageSize control.
@@ -42,6 +51,15 @@ namespace WebFormBoostrap
         protected global::System.Web.UI.WebControls.GridView gvProfile;
 
         /// <summary>
+        /// lblModalContent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblModalContent;
+
+        /// <summary>
         /// hdnprofileId control.
         /// </summary>
         /// <remarks>
@@ -49,6 +67,15 @@ namespace WebFormBoostrap
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdnprofileId;
+
+        /// <summary>
+        /// lblProfileId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblProfileId;
 
         /// <summary>
         /// txtName control.
