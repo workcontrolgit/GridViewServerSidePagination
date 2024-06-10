@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using WebFormBoostrap.BusinessLayer.Models;
-using WebFormBoostrap.BusinessLayer.Services;
+using WebFormBootstrap.BusinessLayer.Models;
+using WebFormBootstrap.BusinessLayer.Services;
 
-namespace WebFormBoostrap
+namespace WebFormBootstrap
 {
     public partial class Profile : System.Web.UI.Page
     {
@@ -43,8 +43,8 @@ namespace WebFormBoostrap
             else if (e.CommandName == "DeleteRow")
             {
                 int profileId = Convert.ToInt32(e.CommandArgument);
-                _profileService.DeleteProfile(profileId);
-                gvProfile.DataBind();
+                hdnDeleteProfileId.Value = profileId.ToString();
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ShowDeleteModal", "showDeleteModal()", true);
             }
         }
 
@@ -52,8 +52,11 @@ namespace WebFormBoostrap
         {
             if (e.Row.RowType != DataControlRowType.DataRow) return;
 
-            Button lb = e.Row.FindControl("btnEdit") as Button;
-            ScriptManager.GetCurrent(this).RegisterAsyncPostBackControl(lb);
+            Button btnEdit = e.Row.FindControl("btnEdit") as Button;
+            ScriptManager.GetCurrent(this).RegisterAsyncPostBackControl(btnEdit);
+
+            Button btnDelete = e.Row.FindControl("btnDelete") as Button;
+            ScriptManager.GetCurrent(this).RegisterAsyncPostBackControl(btnDelete);
         }
 
         protected void SaveProfile(object sender, EventArgs e)
@@ -94,6 +97,14 @@ namespace WebFormBoostrap
             txtStatus.Text = string.Empty;
 
             ScriptManager.RegisterStartupScript(this, this.GetType(), "OpenModal", "showModal()", true);
+        }
+
+        protected void ConfirmDeleteProfile(object sender, EventArgs e)
+        {
+            int profileId = Convert.ToInt32(hdnDeleteProfileId.Value);
+            _profileService.DeleteProfile(profileId);
+            gvProfile.DataBind();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "CloseDeleteModal", "hideDeleteModal()", true);
         }
     }
 }

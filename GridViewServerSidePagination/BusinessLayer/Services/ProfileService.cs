@@ -1,7 +1,7 @@
-﻿using WebFormBoostrap.BusinessLayer.Models;
-using WebFormBoostrap.DataLayer;
+﻿using WebFormBootstrap.BusinessLayer.Models;
+using WebFormBootstrap.DataLayer;
 
-namespace WebFormBoostrap.BusinessLayer.Services
+namespace WebFormBootstrap.BusinessLayer.Services
 {
     public class ProfileService
     {

@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 
 
-namespace WebFormBoostrap
+namespace WebFormBootstrap
 {
     public partial class _Default
     {

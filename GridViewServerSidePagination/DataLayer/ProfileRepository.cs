@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using WebFormBoostrap.BusinessLayer.Models;
+using WebFormBootstrap.BusinessLayer.Models;
 
-namespace WebFormBoostrap.DataLayer
+namespace WebFormBootstrap.DataLayer
 {
     public class ProfileRepository
     {

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WebFormBoostrap
+namespace WebFormBootstrap
 {
 
 
