@@ -82,7 +82,7 @@ namespace WebFormBootstrap
 
             gvProfile.DataBind();
             ScriptManager.RegisterStartupScript(this, this.GetType(), "CloseModal", "hideModal()", true);
-            upnContent.Update();
+            //upnContent.Update();
         }
 
         protected void btnAddProfile_Click(object sender, EventArgs e)

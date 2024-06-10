@@ -17,7 +17,7 @@
             $('.modal-backdrop').remove();
         }
     </script>
-    <asp:UpdatePanel ID="upnContent" runat="server" UpdateMode="Conditional">
+    <asp:UpdatePanel ID="upnContent" runat="server">
         <ContentTemplate>
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <asp:Button ID="btnAddProfile" runat="server" Text="Add Profile" OnClick="btnAddProfile_Click" CssClass="btn btn-primary" />
