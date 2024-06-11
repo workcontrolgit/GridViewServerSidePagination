@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace WebFormBoostrap
+namespace WebFormBootstrap
 {
     public partial class SiteMaster : MasterPage
     {

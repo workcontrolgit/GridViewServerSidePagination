@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.UI;
 
-namespace WebFormBoostrap
+namespace WebFormBootstrap
 {
     public partial class Contact : Page
     {

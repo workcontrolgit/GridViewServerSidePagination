@@ -1,5 +1,9 @@
-﻿namespace WebFormBoostrap.App_Code
+﻿namespace WebFormBootstrap.BusinessLayer.Models
+
 {
+    /// <summary>
+    /// Represents a user profile with properties like ProfileId, Name, Address, Email, Mobile, and IsActive.
+    /// </summary>
     public class UserProfile
     {
         public int ProfileId { get; set; }
