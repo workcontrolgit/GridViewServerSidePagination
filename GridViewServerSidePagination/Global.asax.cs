@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Optimization;
 using System.Web.Routing;
 
-namespace GridViewServerSidePagination
+namespace AspNetWebformSample
 {
     public class Global : HttpApplication, IContainerProviderAccessor
     {

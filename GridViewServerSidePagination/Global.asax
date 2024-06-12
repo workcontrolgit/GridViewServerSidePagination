@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="GridViewServerSidePagination.Global" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="AspNetWebformSample.Global" Language="C#" %>

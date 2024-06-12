@@ -1,11 +1,11 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="GridViewServerSidePagination.SiteMaster" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="AspNetWebformSample.SiteMaster" %>
 
 <!DOCTYPE html>
 <html lang="en">
 <head runat="server">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%: Page.Title %> - My ASP.NET Application</title>
+    <title><%: Page.Title %> - AspNetWebformSample</title>
 
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/bundles/modernizr") %>
@@ -34,9 +34,9 @@
             </Scripts>
         </asp:ScriptManager>
 
-        <nav class="navbar navbar-expand-lg">
+        <nav class="navbar navbar-expand-lg navbar-expand-md navbar-expand-sm">
             <div class="container">
-                <a class="navbar-brand" runat="server" href="~/">ASP.NET Web form Bootstrap Demo</a>
+                <a class="navbar-brand" runat="server" href="~/">AspNetWebformSample</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -58,6 +58,7 @@
                             <StaticHoverStyle Font-Underline="true" />
                             <StaticSelectedStyle Font-Bold="true" />
                             <DynamicMenuItemStyle CssClass="dropdown-item" />
+                            <StaticMenuItemStyle HorizontalPadding="10px" />
                         </asp:Menu>
                     </ul>
                 </div>
@@ -71,7 +72,7 @@
             </asp:ContentPlaceHolder>
             <hr />
             <footer>
-                <p>&copy; <%: DateTime.Now.Year %> - My ASP.NET Application</p>
+                <p>&copy; <%: DateTime.Now.Year %> - NguyenTech</p>
             </footer>
         </div>
     </form>

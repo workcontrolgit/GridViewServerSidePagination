@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GridViewServerSidePagination {
+namespace AspNetWebformSample {
     
     
     public partial class Site_Mobile {
