@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.UI;
 
-namespace WebFormBootstrap
+namespace AspNetWebformSample
 {
     public partial class Contact : Page
     {

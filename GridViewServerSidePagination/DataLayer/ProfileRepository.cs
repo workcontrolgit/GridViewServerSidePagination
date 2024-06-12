@@ -1,11 +1,11 @@
-﻿using System;
+﻿using AspNetWebformSample.BusinessLayer.Models;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using WebFormBootstrap.BusinessLayer.Models;
 
-namespace WebFormBootstrap.DataLayer
+namespace AspNetWebformSample.DataLayer
 {
     /// <summary>
     /// Repository class for handling operations related to user profiles in the database.

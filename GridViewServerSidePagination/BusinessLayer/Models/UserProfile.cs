@@ -1,4 +1,4 @@
-﻿namespace WebFormBootstrap.BusinessLayer.Models
+﻿namespace AspNetWebformSample.BusinessLayer.Models
 
 {
     /// <summary>
