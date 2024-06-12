@@ -188,6 +188,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
+    <Content Include="App_Data\DbScript.txt" />
+    <Content Include="App_Data\FakeDataScript.txt" />
     <Content Include="App_Data\ProfileDB.ldf">
       <DependentUpon>ProfileDB.mdf</DependentUpon>
     </Content>
