@@ -1,7 +1,7 @@
-﻿using WebFormBootstrap.BusinessLayer.Models;
-using WebFormBootstrap.DataLayer;
+﻿using AspNetWebformSample.BusinessLayer.Models;
+using AspNetWebformSample.DataLayer;
 
-namespace WebFormBootstrap.BusinessLayer.Services
+namespace AspNetWebformSample.BusinessLayer.Services
 {
     /// <summary>
     /// Service class for managing user profiles.

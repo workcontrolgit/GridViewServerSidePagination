@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Employee Page" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeBehind="Profile.aspx.cs" Inherits="WebFormBootstrap.Profile" %>
+﻿<%@ Page Title="Employee Page" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeBehind="Profile.aspx.cs" Inherits="AspNetWebformSample.Profile" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <script>
@@ -118,7 +118,7 @@
     </asp:UpdatePanel>
 
     <asp:ObjectDataSource ID="profileDataSource" runat="server" SelectMethod="GetProfiles" EnablePaging="true" MaximumRowsParameterName="pageSize"
-        StartRowIndexParameterName="startRowIndex" TypeName="WebFormBootstrap.DataLayer.ProfileRepository" SelectCountMethod="TotalRowCount" 
+        StartRowIndexParameterName="startRowIndex" TypeName="AspNetWebformSample.DataLayer.ProfileRepository" SelectCountMethod="TotalRowCount" 
         SortParameterName="sortExpression">
         <SelectParameters>
             <asp:Parameter Name="startRowIndex" Type="Int32" />

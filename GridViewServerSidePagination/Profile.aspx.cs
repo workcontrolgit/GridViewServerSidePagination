@@ -1,10 +1,10 @@
-﻿using System;
+﻿using AspNetWebformSample.BusinessLayer.Models;
+using AspNetWebformSample.BusinessLayer.Services;
+using System;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using WebFormBootstrap.BusinessLayer.Models;
-using WebFormBootstrap.BusinessLayer.Services;
 
-namespace WebFormBootstrap
+namespace AspNetWebformSample
 {
     /// <summary>
     /// Represents the Profile page class that handles user profile operations.

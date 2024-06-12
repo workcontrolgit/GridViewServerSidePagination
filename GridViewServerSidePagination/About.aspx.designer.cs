@@ -8,7 +8,7 @@
 //------------------------------------------------------------------------------
 
 
-namespace WebFormBootstrap
+namespace AspNetWebformSample
 {
     public partial class About
     {

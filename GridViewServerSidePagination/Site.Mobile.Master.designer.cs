@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WebFormBootstrap {
+namespace AspNetWebformSample {
     
     
     public partial class Site_Mobile {
