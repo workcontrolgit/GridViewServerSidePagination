@@ -5,6 +5,9 @@ using System.Web.UI;
 
 namespace AspNetWebformSample
 {
+    /// <summary>
+    /// Represents a user control for managing user profiles in a modal.
+    /// </summary>
     public partial class ProfileModal : UserControl
     {
         /// <summary>

@@ -12,8 +12,15 @@ namespace AspNetWebformSample
     /// </summary>
     public partial class Profile : Page
     {
+        /// <summary>
+        /// Private field to store an instance of the ProfileService class.
+        /// </summary>
         private readonly ProfileService _profileService;
 
+        /// <summary>
+        /// Constructor for the Profile class.
+        /// Initializes a new instance of the Profile class and creates a new ProfileService object.
+        /// </summary>
         public Profile()
         {
             _profileService = new ProfileService();
@@ -166,17 +173,9 @@ namespace AspNetWebformSample
             ProfileModal.InitializeAddProfileModal();
             ProfileModal.OpenModal();
         }
-
         /// <summary>
-        /// Event handler for confirming the deletion of a profile. Retrieves the profile ID from a hidden field, deletes the profile using the profile service, updates the grid view, and then closes the delete modal using a script.
+        /// Event handler for confirming deletion in a modal dialog. Deletes a profile based on the profile ID obtained from the modal, then rebinds the GridView to reflect the changes.
         /// </summary>
-        //protected void ConfirmDeleteProfile(object sender, EventArgs e)
-        //{
-        //    int profileId = Convert.ToInt32(DeleteModal.ProfileID);
-        //    _profileService.DeleteProfile(profileId);
-        //    gvProfile.DataBind();
-        //}
-
         private void DeleteModal_DeleteConfirmed(object sender, EventArgs e)
         {
             var profileId = Convert.ToInt32(DeleteModal.ProfileID);
@@ -185,6 +184,12 @@ namespace AspNetWebformSample
             gvProfile.DataBind();
         }
 
+        /// <summary>
+        /// Event handler for the SelectedIndexChanged event of the ddlPages DropDownList.
+        /// Sets the PageIndex of the gvProfile GridView to the selected value of ddlPages.
+        /// </summary>
+        /// <param name="sender">The object that raised the event (ddlPages DropDownList).</param>
+        /// <param name="e">The event arguments.</param>
         protected void ddlPages_SelectedIndexChanged(object sender, EventArgs e)
         {
             DropDownList ddlPages = (DropDownList)sender;

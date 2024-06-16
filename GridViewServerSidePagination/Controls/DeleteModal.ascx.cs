@@ -3,6 +3,9 @@ using System.Web.UI;
 
 namespace AspNetWebformSample.Controls
 {
+    /// <summary>
+    /// UserControl for a delete confirmation modal dialog.
+    /// </summary>
     public partial class DeleteModal : UserControl
     {
         /// <summary>
