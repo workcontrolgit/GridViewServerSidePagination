@@ -15,7 +15,7 @@
     <asp:UpdatePanel ID="upnContent" runat="server">
         <ContentTemplate>
             <div class="d-flex justify-content-end align-items-center mb-3">
-                <asp:Button ID="btnAddProfile" runat="server" Text="Add Profile" OnClick="btnAddProfile_Click" CssClass="btn btn-primary" />
+                <asp:Button ID="btnAddProfile" runat="server" Text="Add Profile" OnClick="btnAddProfile_Click" CssClass="btn btn-primary" CausesValidation="false" />
             </div>
 
             <asp:GridView ID="gvProfile" DataSourceID="profileDataSource" runat="server" AutoGenerateColumns="false" OnRowDataBound="gvProfile_RowDataBound" OnRowCommand="gvProfile_RowCommand"
