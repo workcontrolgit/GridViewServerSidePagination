@@ -8,6 +8,9 @@ namespace AspNetWebformSample.BusinessLayer.Services
     /// </summary>
     public class ProfileService
     {
+        /// <summary>
+        /// Private field to store an instance of ProfileRepository class.
+        /// </summary>
         private readonly ProfileRepository _repository;
 
         /// <summary>
@@ -56,9 +59,24 @@ namespace AspNetWebformSample.BusinessLayer.Services
         /// Deletes a profile based on the provided profileId.
         /// </summary>
         /// <param name="profileId">The unique identifier of the profile to be deleted.</param>
+        /// <summary>
+        /// Deletes a profile based on the provided profileId.
+        /// </summary>
+        /// <param name="profileId">The unique identifier of the profile to be deleted.</param>
         public void DeleteProfile(int profileId)
         {
             _repository.DeleteProfile(profileId);
+        }
+
+        /// <summary>
+        /// Gets the total number of profiles from the repository.
+        /// </summary>
+        /// <returns>
+        /// The total number of profiles.
+        /// </returns>
+        public int GetTotalProfiles()
+        {
+            return _repository.TotalRowCount(0, 0, string.Empty);
         }
     }
 }

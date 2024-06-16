@@ -12,6 +12,12 @@ namespace AspNetWebformSample.DataLayer
     /// </summary>
     public class ProfileRepository
     {
+        /// <summary>
+        /// Default constructor for ProfileRepository class.
+        /// </summary>
+        /// <returns>
+        /// An instance of ProfileRepository.
+        /// </returns>
         public ProfileRepository()
         {
         }

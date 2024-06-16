@@ -1,0 +1,335 @@
+﻿USE [master]
+GO
+
+/****** Object:  Database [ProfileDB]    Script Date: 6/12/2024 6:54:18 AM ******/
+IF EXISTS (SELECT name FROM sys.databases WHERE name = N'ProfileDB')
+BEGIN
+    DROP DATABASE [ProfileDB]
+END
+GO
+
+/****** Object:  Database [ProfileDB]    Script Date: 6/12/2024 6:54:18 AM ******/
+CREATE DATABASE [ProfileDB]
+GO
+
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+BEGIN
+    EXEC [ProfileDB].[dbo].[sp_fulltext_database] @action = 'enable'
+END
+GO
+
+ALTER DATABASE [ProfileDB] SET ANSI_NULL_DEFAULT ON 
+GO
+
+ALTER DATABASE [ProfileDB] SET ANSI_NULLS ON 
+GO
+
+ALTER DATABASE [ProfileDB] SET ANSI_PADDING ON 
+GO
+
+ALTER DATABASE [ProfileDB] SET ANSI_WARNINGS ON 
+GO
+
+ALTER DATABASE [ProfileDB] SET ARITHABORT ON 
+GO
+
+ALTER DATABASE [ProfileDB] SET AUTO_CLOSE ON 
+GO
+
+ALTER DATABASE [ProfileDB] SET AUTO_SHRINK OFF 
+GO
+
+ALTER DATABASE [ProfileDB] SET AUTO_UPDATE_STATISTICS ON 
+GO
+
+ALTER DATABASE [ProfileDB] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+
+ALTER DATABASE [ProfileDB] SET CURSOR_DEFAULT  LOCAL 
+GO
+
+ALTER DATABASE [ProfileDB] SET CONCAT_NULL_YIELDS_NULL ON 
+GO
+
+ALTER DATABASE [ProfileDB] SET NUMERIC_ROUNDABORT OFF 
+GO
+
+ALTER DATABASE [ProfileDB] SET QUOTED_IDENTIFIER ON 
+GO
+
+ALTER DATABASE [ProfileDB] SET RECURSIVE_TRIGGERS OFF 
+GO
+
+ALTER DATABASE [ProfileDB] SET  DISABLE_BROKER 
+GO
+
+ALTER DATABASE [ProfileDB] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+
+ALTER DATABASE [ProfileDB] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+
+ALTER DATABASE [ProfileDB] SET TRUSTWORTHY OFF 
+GO
+
+ALTER DATABASE [ProfileDB] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+
+ALTER DATABASE [ProfileDB] SET PARAMETERIZATION SIMPLE 
+GO
+
+ALTER DATABASE [ProfileDB] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+
+ALTER DATABASE [ProfileDB] SET HONOR_BROKER_PRIORITY OFF 
+GO
+
+ALTER DATABASE [ProfileDB] SET RECOVERY FULL 
+GO
+
+ALTER DATABASE [ProfileDB] SET  MULTI_USER 
+GO
+
+ALTER DATABASE [ProfileDB] SET PAGE_VERIFY CHECKSUM  
+GO
+
+ALTER DATABASE [ProfileDB] SET DB_CHAINING OFF 
+GO
+
+ALTER DATABASE [ProfileDB] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+
+ALTER DATABASE [ProfileDB] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+
+ALTER DATABASE [ProfileDB] SET DELAYED_DURABILITY = DISABLED 
+GO
+
+ALTER DATABASE [ProfileDB] SET QUERY_STORE = OFF
+GO
+
+USE [ProfileDB]
+GO
+
+ALTER DATABASE SCOPED CONFIGURATION SET LEGACY_CARDINALITY_ESTIMATION = OFF;
+GO
+
+ALTER DATABASE SCOPED CONFIGURATION SET MAXDOP = 0;
+GO
+
+ALTER DATABASE SCOPED CONFIGURATION SET PARAMETER_SNIFFING = ON;
+GO
+
+ALTER DATABASE SCOPED CONFIGURATION SET QUERY_OPTIMIZER_HOTFIXES = OFF;
+GO
+
+ALTER DATABASE [ProfileDB] SET  READ_WRITE 
+GO
+
+/****** Object:  Table [dbo].[Profiles]    Script Date: 6/12/2024 6:56:45 AM ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Profiles]') AND type in (N'U'))
+DROP TABLE [dbo].[Profiles]
+GO
+
+/****** Object:  Table [dbo].[Profiles]    Script Date: 6/12/2024 6:56:45 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Profiles](
+	[ProfileId] [bigint] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](100) NOT NULL,
+	[Address] [varchar](250) NULL,
+	[Email] [varchar](50) NULL,
+	[Mobile] [varchar](15) NULL,
+	[IsActive] [bit] NOT NULL,
+ CONSTRAINT [PK_Profiles] PRIMARY KEY CLUSTERED 
+(
+	[ProfileId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+/****** Object:  StoredProcedure [dbo].[Profile_Create]    Script Date: 6/12/2024 7:00:33 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+CREATE OR ALTER PROCEDURE [dbo].[Profile_Create]
+    @Name NVARCHAR(100),
+    @Address NVARCHAR(200),
+    @Email NVARCHAR(100),
+    @Mobile NVARCHAR(20),
+    @IsActive NVARCHAR(10)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO Profiles (Name, Address, Email, Mobile, IsActive)
+    VALUES (@Name, @Address, @Email, @Mobile, @IsActive);
+
+    -- Return the ID of the newly created profile
+    SELECT SCOPE_IDENTITY() AS NewProfileId;
+END
+GO
+
+/****** Object:  StoredProcedure [dbo].[Profile_Delete]    Script Date: 6/12/2024 7:01:00 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+CREATE OR ALTER PROCEDURE [dbo].[Profile_Delete]
+    @ProfileId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Delete the profile with the specified ProfileId
+    DELETE FROM Profiles
+    WHERE ProfileId = @ProfileId;
+
+    -- Check if the delete was successful
+    IF @@ROWCOUNT = 0
+    BEGIN
+        -- If no rows were deleted, raise an error
+        RAISERROR('No profile found with the specified ProfileId', 16, 1);
+    END
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[Profile_Get]    Script Date: 6/12/2024 7:01:19 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+
+CREATE OR ALTER PROCEDURE [dbo].[Profile_Get]
+    @PageSize int = null,
+    @CurrentPage int = null,
+    @SortExpression nvarchar(max) = null
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @SqlString nvarchar(max);
+    DECLARE @UpperBand int;
+    DECLARE @LowerBand int;
+    
+    SET @LowerBand = (@CurrentPage - 1) * @PageSize;
+    SET @UpperBand = @CurrentPage * @PageSize;
+
+    SET @SqlString = '
+        WITH tempProfile AS
+        (
+            SELECT 
+                [ProfileId],
+                [Name],
+                [Address],
+                [Email],
+                [Mobile], 
+                [IsActive] = CASE [IsActive] WHEN 1 THEN ''Active'' ELSE ''DeActive'' END,
+                ROW_NUMBER() OVER (ORDER BY ' + @SortExpression + ') AS RowNumber
+            FROM [dbo].[Profiles]
+        )
+        SELECT 
+            [ProfileId],
+            [Name],
+            [Address],
+            [Email],
+            [Mobile], 
+            [IsActive]
+        FROM 
+            tempProfile 
+        WHERE 
+            RowNumber > ' + CONVERT(VARCHAR, @LowerBand) + ' AND RowNumber <= ' + CONVERT(VARCHAR, @UpperBand) + '
+        ORDER BY ' + @SortExpression;
+    
+    EXEC sp_executesql @SqlString;
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[Profile_Get_By_Id]    Script Date: 6/12/2024 7:01:56 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+CREATE OR ALTER PROCEDURE [dbo].[Profile_Get_By_Id]
+    @ProfileId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT
+        ProfileId,
+        Name,
+        Address,
+        Email,
+        Mobile,
+        IsActive
+    FROM Profiles
+    WHERE ProfileId = @ProfileId;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[Profile_Total]    Script Date: 6/12/2024 7:02:18 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE OR ALTER PROCEDURE [dbo].[Profile_Total]
+AS
+BEGIN
+
+    SET NOCOUNT ON
+    SELECT COUNT(*) FROM Profiles
+END
+GO
+/****** Object:  StoredProcedure [dbo].[Profile_Update]    Script Date: 6/12/2024 7:02:34 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+CREATE OR ALTER PROCEDURE [dbo].[Profile_Update]
+    @ProfileId INT,
+    @Name NVARCHAR(100),
+    @Address NVARCHAR(200),
+    @Email NVARCHAR(100),
+    @Mobile NVARCHAR(20),
+    @IsActive NVARCHAR(10)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE Profiles
+    SET
+        Name = @Name,
+        Address = @Address,
+        Email = @Email,
+        Mobile = @Mobile,
+        IsActive = @IsActive
+    WHERE ProfileId = @ProfileId;
+END
+GO
