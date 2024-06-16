@@ -14,14 +14,54 @@
     </script>
     <asp:UpdatePanel ID="upnContent" runat="server">
         <ContentTemplate>
+
             <div class="d-flex justify-content-end align-items-center mb-3">
                 <asp:Button ID="btnAddProfile" runat="server" Text="Add Profile" OnClick="btnAddProfile_Click" CssClass="btn btn-primary" CausesValidation="false" />
             </div>
 
             <asp:GridView ID="gvProfile" DataSourceID="profileDataSource" runat="server" AutoGenerateColumns="false" OnRowDataBound="gvProfile_RowDataBound" OnRowCommand="gvProfile_RowCommand"
                 AllowPaging="true" PagerSettings-Mode="NextPreviousFirstLast" AllowSorting="true" CssClass="table table-striped table-bordered table-hover mt-3" PagerSettings-FirstPageText="First" PagerSettings-LastPageText="Last" PagerSettings-NextPageText="Next" PagerSettings-PreviousPageText="Previous" PagerSettings-Visible="True">
-
-                <PagerTemplate>
+<PagerTemplate>
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                        <div class="d-flex align-items-center">
+                            <label class="mr-2">Page Size:</label>
+                            <asp:DropDownList ID="ddlPageSize" runat="server" AutoPostBack="true" OnSelectedIndexChanged="PageSize_Changed" CssClass="form-control d-inline-block w-auto">
+                                <asp:ListItem Text="10" Value="10" />
+                                <asp:ListItem Text="25" Value="25" />
+                                <asp:ListItem Text="50" Value="50" />
+                            </asp:DropDownList>
+                        </div>
+                        <ul class="pagination mb-0">
+                            <li class="page-item">
+                                <asp:LinkButton ID="lnkFirst" runat="server" CommandName="Page" CommandArgument="First" CssClass="page-link" CausesValidation="false">
+                                    <i class="fa fa-angle-double-left"></i>
+                                </asp:LinkButton>
+                            </li>
+                            <li class="page-item">
+                                <asp:LinkButton ID="lnkPrev" runat="server" CommandName="Page" CommandArgument="Prev" CssClass="page-link" CausesValidation="false">
+                                    <i class="fa fa-angle-left"></i>
+                                </asp:LinkButton>
+                            </li>
+                            <li class="page-item">
+                                <asp:DropDownList ID="ddlPages" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlPages_SelectedIndexChanged" CssClass="form-control d-inline-block w-auto"></asp:DropDownList>
+                            </li>
+                            <li class="page-item">
+                                <asp:LinkButton ID="lnkNext" runat="server" CommandName="Page" CommandArgument="Next" CssClass="page-link" CausesValidation="false">
+                                    <i class="fa fa-angle-right"></i>
+                                </asp:LinkButton>
+                            </li>
+                            <li class="page-item">
+                                <asp:LinkButton ID="lnkLast" runat="server" CommandName="Page" CommandArgument="Last" CssClass="page-link" CausesValidation="false">
+                                    <i class="fa fa-angle-double-right"></i>
+                                </asp:LinkButton>
+                            </li>
+                        </ul>
+                        <div class="d-flex align-items-center">
+                            <span class="ml-2">Total Records: <asp:Label ID="lblTotalRecords" runat="server" /></span>
+                        </div>
+                    </div>
+                </PagerTemplate>
+<%--                <PagerTemplate>
                     <div class="d-flex justify-content-between align-items-center w-100">
                         <div class="d-flex align-items-center">
                             <label class="mr-2">Page Size:</label>
@@ -52,7 +92,7 @@
                             <span class="ml-2">Total Records: <asp:Label ID="lblTotalRecords" runat="server" /></span>
                         </div>
                     </div>
-                </PagerTemplate>
+                </PagerTemplate>--%>
 
                 <Columns>
                     <asp:BoundField DataField="ProfileId" HeaderText="Profile Id" SortExpression="ProfileId" />

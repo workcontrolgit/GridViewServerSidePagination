@@ -43,18 +43,17 @@ namespace AspNetWebformSample
             gvProfile.DataBind();
         }
 
+
         /// <summary>
-        /// Event handler for when the page size dropdown selection is changed.
-        /// Sets the page size of the gridview to the selected value from the dropdown list.
+        /// Event handler for changing the page size in a GridView
         /// </summary>
-        /// <param name="sender">The object that raised the event.</param>
-        /// <param name="e">The event arguments.</param>
+        /// <param name="sender">The DropDownList control that triggered the event</param>
+        /// <param name="e">The event arguments</param>
         protected void PageSize_Changed(object sender, EventArgs e)
         {
             DropDownList ddlPageSize = (DropDownList)sender;
             gvProfile.PageSize = int.Parse(ddlPageSize.SelectedValue);
-            //gvProfile.PageIndex = 0;
-            //gvProfile.DataBind();
+            gvProfile.PageIndex = 0;
         }
 
         /// <summary>
@@ -126,9 +125,6 @@ namespace AspNetWebformSample
                 if (lblTotalRecords != null)
                 {
                     lblTotalRecords.Text = Convert.ToString(_profileService.GetTotalProfiles());
-                    //lblTotalRecords.Text = gv.DataSource as ObjectDataSource != null
-                    //    ? (gv.DataSource as ObjectDataSource).SelectCountMethod
-                    //    : "0";
                 }
 
                 // Set page size to match grid page size
@@ -178,7 +174,6 @@ namespace AspNetWebformSample
             DropDownList ddlPages = (DropDownList)sender;
             int pageIndex = int.Parse(ddlPages.SelectedValue);
             gvProfile.PageIndex = pageIndex;
-            gvProfile.DataBind();
         }
     }
 }
