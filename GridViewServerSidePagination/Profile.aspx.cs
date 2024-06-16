@@ -1,4 +1,5 @@
-﻿using AspNetWebformSample.BusinessLayer.Models;
+﻿using AspNetWebformSample.BusinessLayer.Events;
+using AspNetWebformSample.BusinessLayer.Models;
 using AspNetWebformSample.BusinessLayer.Services;
 using System;
 using System.Web.UI;
@@ -11,22 +12,62 @@ namespace AspNetWebformSample
     /// </summary>
     public partial class Profile : Page
     {
+        /// <summary>
+        /// Private field to store an instance of the ProfileService class.
+        /// </summary>
         private readonly ProfileService _profileService;
 
+        /// <summary>
+        /// Constructor for the Profile class.
+        /// Initializes a new instance of the Profile class and creates a new ProfileService object.
+        /// </summary>
         public Profile()
         {
             _profileService = new ProfileService();
         }
 
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            /// <summary>
+            /// Subscribes the ProfileSaved event of ProfileModal to the ProfileModal_SaveProfileClicked method.
+            /// </summary>
+            ProfileModal.ProfileSaved += ProfileModal_SaveProfileClicked;
+            // Subscribe to the DeleteConfirmed event
+            DeleteModal.DeleteConfirmed += DeleteModal_DeleteConfirmed;
+        }
+
         /// <summary>
-        /// Event handler for when the page size dropdown selection is changed.
-        /// Sets the page size of the gridview to the selected value from the dropdown list.
+        /// Event handler for saving a user profile data.
+        /// Creates a new profile if ProfileId is 0, otherwise updates the existing profile using ProfileService.
+        /// Closes the profile modal and rebinds the grid view with updated data.
         /// </summary>
-        /// <param name="sender">The object that raised the event.</param>
-        /// <param name="e">The event arguments.</param>
+        protected void ProfileModal_SaveProfileClicked(object sender, ProfileEventArgs e)
+        {
+            // Handle the profile data
+            UserProfile profile = e.Profile;
+
+            if (profile.ProfileId == 0)
+            {
+                _profileService.CreateProfile(profile);
+            }
+            else
+            {
+                _profileService.UpdateProfile(profile);
+            }
+            ProfileModal.CloseModal();
+            gvProfile.DataBind();
+        }
+
+        /// <summary>
+        /// Event handler for changing the page size in a GridView
+        /// </summary>
+        /// <param name="sender">The DropDownList control that triggered the event</param>
+        /// <param name="e">The event arguments</param>
         protected void PageSize_Changed(object sender, EventArgs e)
         {
-            gvProfile.PageSize = Convert.ToInt32(ddlPageSize.SelectedValue);
+            DropDownList ddlPageSize = (DropDownList)sender;
+            gvProfile.PageSize = int.Parse(ddlPageSize.SelectedValue);
+            gvProfile.PageIndex = 0;
         }
 
         /// <summary>
@@ -43,22 +84,15 @@ namespace AspNetWebformSample
 
                 if (profile != null)
                 {
-                    lblModalContent.Text = "Edit Profile";
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "OpenModal", "showModal()", true);
-                    hdnprofileId.Value = profile.ProfileId.ToString();
-                    lblProfileId.Text = profile.ProfileId.ToString();
-                    txtName.Text = profile.Name;
-                    txtAddress.Text = profile.Address;
-                    txtEmail.Text = profile.Email;
-                    txtMobile.Text = profile.Mobile;
-                    txtStatus.Text = profile.IsActive;
+                    ProfileModal.OpenProfileModal(profile);
+                    ProfileModal.OpenModal();
                 }
             }
             else if (e.CommandName == "DeleteRow")
             {
-                int profileId = Convert.ToInt32(e.CommandArgument);
-                hdnDeleteProfileId.Value = profileId.ToString();
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "ShowDeleteModal", "showDeleteModal()", true);
+                var profileId = Convert.ToString(e.CommandArgument);
+                DeleteModal.SetProfileId(profileId);
+                DeleteModal.OpenModal();
             }
         }
 
@@ -69,71 +103,98 @@ namespace AspNetWebformSample
         /// <param name="e">A GridViewRowEventArgs that contains the event data.</param>
         protected void gvProfile_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            if (e.Row.RowType != DataControlRowType.DataRow) return;
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                Button btnEdit = e.Row.FindControl("btnEdit") as Button;
+                ScriptManager.GetCurrent(this).RegisterAsyncPostBackControl(btnEdit);
 
-            Button btnEdit = e.Row.FindControl("btnEdit") as Button;
-            ScriptManager.GetCurrent(this).RegisterAsyncPostBackControl(btnEdit);
+                Button btnDelete = e.Row.FindControl("btnDelete") as Button;
+                ScriptManager.GetCurrent(this).RegisterAsyncPostBackControl(btnDelete);
+            }
+            if (e.Row.RowType == DataControlRowType.Pager)
+            {
+                GridView gv = (GridView)sender;
 
-            Button btnDelete = e.Row.FindControl("btnDelete") as Button;
-            ScriptManager.GetCurrent(this).RegisterAsyncPostBackControl(btnDelete);
+                // Get the pager row and find the LinkButton controls
+                LinkButton lnkFirst = (LinkButton)e.Row.FindControl("lnkFirst");
+                LinkButton lnkPrev = (LinkButton)e.Row.FindControl("lnkPrev");
+                LinkButton lnkNext = (LinkButton)e.Row.FindControl("lnkNext");
+                LinkButton lnkLast = (LinkButton)e.Row.FindControl("lnkLast");
+
+                // Disable "First" and "Previous" buttons if on the first page
+                if (gv.PageIndex == 0)
+                {
+                    if (lnkFirst != null) lnkFirst.Enabled = false;
+                    if (lnkPrev != null) lnkPrev.Enabled = false;
+                }
+
+                // Disable "Next" and "Last" buttons if on the last page
+                if (gv.PageIndex == gv.PageCount - 1)
+                {
+                    if (lnkNext != null) lnkNext.Enabled = false;
+                    if (lnkLast != null) lnkLast.Enabled = false;
+                }
+
+                // Display total records
+                Label lblTotalRecords = (Label)e.Row.FindControl("lblTotalRecords");
+                if (lblTotalRecords != null)
+                {
+                    lblTotalRecords.Text = Convert.ToString(_profileService.GetTotalProfiles());
+                }
+
+                // Set page size to match grid page size
+                DropDownList ddlPageSize = (DropDownList)e.Row.FindControl("ddlPageSize");
+                ddlPageSize.SelectedValue = Convert.ToString(gv.PageSize);
+
+                // Populate page numbers in the dropdown
+                DropDownList ddlPages = (DropDownList)e.Row.FindControl("ddlPages");
+                if (ddlPages != null)
+                {
+                    ddlPages.Items.Clear();
+                    for (int i = 0; i < gv.PageCount; i++)
+                    {
+                        ListItem item = new ListItem($"Page {i + 1} of {gv.PageCount}", i.ToString());
+                        if (i == gv.PageIndex)
+                        {
+                            item.Selected = true;
+                        }
+                        ddlPages.Items.Add(item);
+                    }
+                }
+            }
         }
 
         /// <summary>
-        /// Event handler for saving a user profile. Creates a new UserProfile object with data from input fields, then either creates or updates the profile using a ProfileService based on the ProfileId. Finally, refreshes the GridView and hides the modal popup using JavaScript.
-        /// </summary>
-        protected void SaveProfile(object sender, EventArgs e)
-        {
-            var profile = new UserProfile
-            {
-                ProfileId = string.IsNullOrEmpty(hdnprofileId.Value) ? 0 : Convert.ToInt32(hdnprofileId.Value),
-                Name = txtName.Text,
-                Address = txtAddress.Text,
-                Email = txtEmail.Text,
-                Mobile = txtMobile.Text,
-                IsActive = txtStatus.Text
-            };
-
-            if (profile.ProfileId == 0)
-            {
-                _profileService.CreateProfile(profile);
-            }
-            else
-            {
-                _profileService.UpdateProfile(profile);
-            }
-
-            gvProfile.DataBind();
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "CloseModal", "hideModal()", true);
-        }
-
-        /// <summary>
-        /// Event handler for the button click to add a new profile.
-        /// Clears the input fields and sets the modal content to "Add Profile".
-        /// Shows the modal dialog using JavaScript.
+        /// Event handler for the click event of the btnAddProfile button.
+        /// Initializes the add profile modal by calling the InitializeAddProfileModal method of the ProfileModal class.
         /// </summary>
         protected void btnAddProfile_Click(object sender, EventArgs e)
         {
-            lblModalContent.Text = "Add Profile";
-            hdnprofileId.Value = string.Empty;
-            lblProfileId.Text = string.Empty;
-            txtName.Text = string.Empty;
-            txtAddress.Text = string.Empty;
-            txtEmail.Text = string.Empty;
-            txtMobile.Text = string.Empty;
-            txtStatus.Text = string.Empty;
-
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "OpenModal", "showModal()", true);
+            ProfileModal.InitializeAddProfileModal();
+            ProfileModal.OpenModal();
+        }
+        /// <summary>
+        /// Event handler for confirming deletion in a modal dialog. Deletes a profile based on the profile ID obtained from the modal, then rebinds the GridView to reflect the changes.
+        /// </summary>
+        private void DeleteModal_DeleteConfirmed(object sender, EventArgs e)
+        {
+            var profileId = Convert.ToInt32(DeleteModal.ProfileID);
+            // Implement your delete logic here
+            _profileService.DeleteProfile(profileId);
+            gvProfile.DataBind();
         }
 
         /// <summary>
-        /// Event handler for confirming the deletion of a profile. Retrieves the profile ID from a hidden field, deletes the profile using the profile service, updates the grid view, and then closes the delete modal using a script.
+        /// Event handler for the SelectedIndexChanged event of the ddlPages DropDownList.
+        /// Sets the PageIndex of the gvProfile GridView to the selected value of ddlPages.
         /// </summary>
-        protected void ConfirmDeleteProfile(object sender, EventArgs e)
+        /// <param name="sender">The object that raised the event (ddlPages DropDownList).</param>
+        /// <param name="e">The event arguments.</param>
+        protected void ddlPages_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int profileId = Convert.ToInt32(hdnDeleteProfileId.Value);
-            _profileService.DeleteProfile(profileId);
-            gvProfile.DataBind();
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "CloseDeleteModal", "hideDeleteModal()", true);
+            DropDownList ddlPages = (DropDownList)sender;
+            int pageIndex = int.Parse(ddlPages.SelectedValue);
+            gvProfile.PageIndex = pageIndex;
         }
     }
 }

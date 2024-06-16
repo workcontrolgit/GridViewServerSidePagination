@@ -7,65 +7,47 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AspNetWebformSample
+namespace AspNetWebformSample.Controls
 {
 
 
-    public partial class Profile
+    public partial class DeleteModal
     {
 
         /// <summary>
-        /// upnContent control.
+        /// lblProfileId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel upnContent;
+        protected global::System.Web.UI.WebControls.Label lblProfileId;
 
         /// <summary>
-        /// btnAddProfile control.
+        /// lblMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAddProfile;
+        protected global::System.Web.UI.WebControls.Label lblMessage;
 
         /// <summary>
-        /// gvProfile control.
+        /// hdnDeleteProfileId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvProfile;
+        protected global::System.Web.UI.WebControls.HiddenField hdnDeleteProfileId;
 
         /// <summary>
-        /// ProfileModal control.
+        /// btnConfirmDelete control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AspNetWebformSample.ProfileModal ProfileModal;
-
-        /// <summary>
-        /// DeleteModal control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::AspNetWebformSample.Controls.DeleteModal DeleteModal;
-
-        /// <summary>
-        /// profileDataSource control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource profileDataSource;
+        protected global::System.Web.UI.WebControls.Button btnConfirmDelete;
     }
 }
