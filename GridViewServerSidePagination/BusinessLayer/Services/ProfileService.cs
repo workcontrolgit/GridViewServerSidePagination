@@ -60,5 +60,10 @@ namespace AspNetWebformSample.BusinessLayer.Services
         {
             _repository.DeleteProfile(profileId);
         }
+
+        public int GetTotalProfiles()
+        {
+            return _repository.TotalRowCount(0, 0, string.Empty);
+        }
     }
 }
