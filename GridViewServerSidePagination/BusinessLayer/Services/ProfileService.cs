@@ -6,7 +6,7 @@ namespace AspNetWebformSample.BusinessLayer.Services
     /// <summary>
     /// Service class for managing user profiles.
     /// </summary>
-    public class ProfileService
+    public class ProfileService : IProfileService
     {
         /// <summary>
         /// Private field to store an instance of ProfileRepository class.
@@ -17,9 +17,6 @@ namespace AspNetWebformSample.BusinessLayer.Services
         /// Constructor for ProfileService class.
         /// Initializes a new instance of ProfileRepository.
         /// </summary>
-        /// <returns>
-        /// No return value.
-        /// </returns>
         public ProfileService()
         {
             _repository = new ProfileRepository();
@@ -55,10 +52,6 @@ namespace AspNetWebformSample.BusinessLayer.Services
             return _repository.GetProfileById(profileId);
         }
 
-        /// <summary>
-        /// Deletes a profile based on the provided profileId.
-        /// </summary>
-        /// <param name="profileId">The unique identifier of the profile to be deleted.</param>
         /// <summary>
         /// Deletes a profile based on the provided profileId.
         /// </summary>
