@@ -204,6 +204,7 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Controls\DeleteModal.ascx" />
     <Content Include="Controls\ProfileModal.ascx" />
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
@@ -372,6 +373,13 @@
     </Compile>
     <Compile Include="Contact.aspx.designer.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DeleteModal.ascx.cs">
+      <DependentUpon>DeleteModal.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\DeleteModal.ascx.designer.cs">
+      <DependentUpon>DeleteModal.ascx</DependentUpon>
     </Compile>
     <Compile Include="Controls\ProfileModal.ascx.cs">
       <DependentUpon>ProfileModal.ascx</DependentUpon>

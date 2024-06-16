@@ -61,6 +61,13 @@ namespace AspNetWebformSample
         {
             // Raise the ProfileSaved event
             ProfileSaved?.Invoke(this, new ProfileEventArgs(Profile));
+        }
+
+        /// <summary>
+        /// Closes a modal dialog by registering a startup script to hide the modal using ScriptManager.
+        /// </summary>
+        public void CloseModal()
+        {
             ScriptManager.RegisterStartupScript(this, this.GetType(), "CloseModal", "hideModal()", true);
         }
 
@@ -79,8 +86,15 @@ namespace AspNetWebformSample
                 txtEmail.Text = profile.Email;
                 txtMobile.Text = profile.Mobile;
                 txtStatus.Text = profile.IsActive;
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "OpenModal", "showModal()", true);
             }
+        }
+
+        /// <summary>
+        /// Opens a modal dialog by registering a startup script to show the modal using ScriptManager.
+        /// </summary>
+        public void OpenModal()
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "OpenModal", "showModal()", true);
         }
 
         /// <summary>
@@ -90,14 +104,12 @@ namespace AspNetWebformSample
         {
             lblModalContent.Text = "Add Profile";
             hdnprofileId.Value = string.Empty;
-            lblProfileId.Text = string.Empty;
+            lblProfileId.Text = "TBD";
             txtName.Text = string.Empty;
             txtAddress.Text = string.Empty;
             txtEmail.Text = string.Empty;
             txtMobile.Text = string.Empty;
             txtStatus.Text = string.Empty;
-
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "OpenModal", "showModal()", true);
         }
     }
 }

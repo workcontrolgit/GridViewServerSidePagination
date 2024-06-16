@@ -25,8 +25,15 @@ namespace AspNetWebformSample
             /// Subscribes the ProfileSaved event of ProfileModal to the ProfileModal_SaveProfileClicked method.
             /// </summary>
             ProfileModal.ProfileSaved += ProfileModal_SaveProfileClicked;
+            // Subscribe to the DeleteConfirmed event
+            DeleteModal.DeleteConfirmed += DeleteModal_DeleteConfirmed;
         }
 
+        /// <summary>
+        /// Event handler for saving a user profile data.
+        /// Creates a new profile if ProfileId is 0, otherwise updates the existing profile using ProfileService.
+        /// Closes the profile modal and rebinds the grid view with updated data.
+        /// </summary>
         protected void ProfileModal_SaveProfileClicked(object sender, ProfileEventArgs e)
         {
             // Handle the profile data
@@ -40,9 +47,9 @@ namespace AspNetWebformSample
             {
                 _profileService.UpdateProfile(profile);
             }
+            ProfileModal.CloseModal();
             gvProfile.DataBind();
         }
-
 
         /// <summary>
         /// Event handler for changing the page size in a GridView
@@ -71,13 +78,14 @@ namespace AspNetWebformSample
                 if (profile != null)
                 {
                     ProfileModal.OpenProfileModal(profile);
+                    ProfileModal.OpenModal();
                 }
             }
             else if (e.CommandName == "DeleteRow")
             {
-                int profileId = Convert.ToInt32(e.CommandArgument);
-                hdnDeleteProfileId.Value = profileId.ToString();
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "ShowDeleteModal", "showDeleteModal()", true);
+                var profileId = Convert.ToString(e.CommandArgument);
+                DeleteModal.SetProfileId(profileId);
+                DeleteModal.OpenModal();
             }
         }
 
@@ -156,17 +164,25 @@ namespace AspNetWebformSample
         protected void btnAddProfile_Click(object sender, EventArgs e)
         {
             ProfileModal.InitializeAddProfileModal();
+            ProfileModal.OpenModal();
         }
 
         /// <summary>
         /// Event handler for confirming the deletion of a profile. Retrieves the profile ID from a hidden field, deletes the profile using the profile service, updates the grid view, and then closes the delete modal using a script.
         /// </summary>
-        protected void ConfirmDeleteProfile(object sender, EventArgs e)
+        //protected void ConfirmDeleteProfile(object sender, EventArgs e)
+        //{
+        //    int profileId = Convert.ToInt32(DeleteModal.ProfileID);
+        //    _profileService.DeleteProfile(profileId);
+        //    gvProfile.DataBind();
+        //}
+
+        private void DeleteModal_DeleteConfirmed(object sender, EventArgs e)
         {
-            int profileId = Convert.ToInt32(hdnDeleteProfileId.Value);
+            var profileId = Convert.ToInt32(DeleteModal.ProfileID);
+            // Implement your delete logic here
             _profileService.DeleteProfile(profileId);
             gvProfile.DataBind();
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "CloseDeleteModal", "hideDeleteModal()", true);
         }
 
         protected void ddlPages_SelectedIndexChanged(object sender, EventArgs e)
