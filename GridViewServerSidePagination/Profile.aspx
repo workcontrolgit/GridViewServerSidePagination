@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Employee Page" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeBehind="Profile.aspx.cs" Inherits="AspNetWebformSample.Profile" %>
+﻿<%@ Page Title="Profile Page" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeBehind="Profile.aspx.cs" Inherits="AspNetWebformSample.Profile" %>
 
 <%@ Register Src="~/Controls/ProfileModal.ascx" TagPrefix="uc" TagName="ProfileModal" %>
 <%@ Register Src="~/Controls/DeleteModal.ascx" TagPrefix="uc" TagName="DeleteModal" %>
@@ -72,29 +72,8 @@
             <uc:ProfileModal ID="ProfileModal" runat="server" />
 
             <!-- Delete Confirmation Modal -->
-            <!-- Delete Confirmation Modal -->
             <uc:DeleteModal ID="DeleteModal" runat="server" />
 
-            <%--<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="deleteModalLabel">Delete Confirmation</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            Are you sure you want to delete this profile?
-                            <asp:HiddenField ID="hdnDeleteProfileId" runat="server" />
-                        </div>
-                        <div class="modal-footer">
-                            <asp:Button ID="btnConfirmDelete" runat="server" Text="Delete" CssClass="btn btn-danger" OnClick="ConfirmDeleteProfile" />
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        </div>
-                    </div>
-                </div>
-            </div>--%>
         </ContentTemplate>
         <Triggers>
             <asp:AsyncPostBackTrigger ControlID="btnAddProfile" EventName="Click" />
