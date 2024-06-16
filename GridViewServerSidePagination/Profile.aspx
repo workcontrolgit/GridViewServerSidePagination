@@ -67,7 +67,6 @@
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>
-                <%--<PagerStyle CssClass="d-flex justify-content-between" />--%>
             </asp:GridView>
             <!-- Profile Modal -->
             <uc:ProfileModal ID="ProfileModal" runat="server" />
