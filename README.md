@@ -63,16 +63,12 @@ To set up this project locally, follow these steps:
     |-- UserControls
         |-- ProfileControl.ascx
         |-- ProfileControl.ascx.cs
-    |-- Services
+    |-- BusinessLayer\Services
         |-- ProfileService.cs
-    |-- Repositories
+    |-- BusinessLayer\Models
+        |-- UserProfile.cs
+    |-- DataLayer
         |-- IProfileRepository.cs
         |-- ProfileRepository.cs
-    |-- Models
-        |-- Profile.cs
-    |-- DataAccess
-        |-- ApplicationDbContext.cs
-    |-- App_Code
-        |-- Utility.cs
     |-- Web.config
 
