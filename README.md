@@ -60,13 +60,18 @@ To set up this project locally, follow these steps:
     |-- Pages
         |-- Default.aspx
         |-- Default.aspx.cs
-    |-- UserControls
-        |-- ProfileControl.ascx
-        |-- ProfileControl.ascx.cs
-    |-- BusinessLayer\Services
-        |-- ProfileService.cs
+    |-- Controls
+        |-- ProfileModal.ascx
+        |-- ProfileModal.ascx.cs
+        |-- DeleteModal.ascx
+        |-- DeleteModal.ascx.cs
+    |-- BusinessLayer\Events
+        |-- ProfileEventArgs.cs
     |-- BusinessLayer\Models
         |-- UserProfile.cs
+    |-- BusinessLayer\Services
+        |-- IProfileService.cs
+        |-- ProfileService.cs
     |-- DataLayer
         |-- IProfileRepository.cs
         |-- ProfileRepository.cs
