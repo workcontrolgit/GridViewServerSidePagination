@@ -389,6 +389,7 @@
     <Compile Include="Controls\ProfileModal.ascx.designer.cs">
       <DependentUpon>ProfileModal.ascx</DependentUpon>
     </Compile>
+    <Compile Include="DataLayer\IProfileRepository.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

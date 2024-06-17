@@ -10,14 +10,11 @@ namespace AspNetWebformSample.DataLayer
     /// <summary>
     /// Repository class for handling operations related to user profiles in the database.
     /// </summary>
-    public class ProfileRepository
+    public class ProfileRepository : IProfileRepository
     {
         /// <summary>
         /// Default constructor for ProfileRepository class.
         /// </summary>
-        /// <returns>
-        /// An instance of ProfileRepository.
-        /// </returns>
         public ProfileRepository()
         {
         }
@@ -28,9 +25,7 @@ namespace AspNetWebformSample.DataLayer
         /// <param name="startRowIndex">The starting index of the row.</param>
         /// <param name="pageSize">The size of the page.</param>
         /// <param name="sortExpression">The expression used for sorting.</param>
-        /// <returns>
-        /// The total row count retrieved from the database.
-        /// </returns>
+        /// <returns>The total row count retrieved from the database.</returns>
         public int TotalRowCount(int startRowIndex, int pageSize, string sortExpression)
         {
             int intTotalProfile = 0;
@@ -53,9 +48,7 @@ namespace AspNetWebformSample.DataLayer
         /// <param name="startRowIndex">The starting index of the profiles to retrieve.</param>
         /// <param name="pageSize">The number of profiles to retrieve per page.</param>
         /// <param name="sortExpression">The column to use for sorting the profiles.</param>
-        /// <returns>
-        /// A list of user profiles based on the specified parameters.
-        /// </returns>
+        /// <returns>A list of user profiles based on the specified parameters.</returns>
         public List<UserProfile> GetProfiles(int startRowIndex, int pageSize, string sortExpression)
         {
             List<UserProfile> profiles = new List<UserProfile>();
@@ -153,10 +146,7 @@ namespace AspNetWebformSample.DataLayer
         /// Retrieves a user profile by the specified profile ID from the database.
         /// </summary>
         /// <param name="profileId">The ID of the profile to retrieve.</param>
-        /// <returns>
-        /// The UserProfile object corresponding to the provided profile ID, or null if no profile is found.
-        /// </returns>
-
+        /// <returns>The UserProfile object corresponding to the provided profile ID, or null if no profile is found.</returns>
         public UserProfile GetProfileById(int profileId)
         {
             UserProfile profile = null;
