@@ -4,9 +4,6 @@
 <%@ Register Src="~/Controls/DeleteModal.ascx" TagPrefix="uc" TagName="DeleteModal" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <asp:UpdatePanel ID="upnContent" runat="server">
-        <ContentTemplate>
-
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid d-flex justify-content-end">
         <div class="navbar-nav d-flex flex-row">
@@ -19,6 +16,11 @@
         </div>
     </div>
 </nav>
+
+
+    <asp:UpdatePanel ID="upnContent" runat="server">
+        <ContentTemplate>
+
 
             <asp:GridView ID="gvProfile" DataSourceID="profileDataSource" runat="server" AutoGenerateColumns="false" OnRowDataBound="gvProfile_RowDataBound" OnRowCommand="gvProfile_RowCommand"
                 AllowPaging="true" PagerSettings-Mode="NextPreviousFirstLast" AllowSorting="true" CssClass="table table-striped table-bordered table-hover mt-3" PagerSettings-FirstPageText="First" PagerSettings-LastPageText="Last" PagerSettings-NextPageText="Next" PagerSettings-PreviousPageText="Previous" PagerSettings-Visible="True">

@@ -204,46 +204,87 @@ namespace AspNetWebformSample
 
         protected void btnExportToExcel_Click(object sender, EventArgs e)
         {
-            int startRowIndex = 0; // Adjust this as necessary
-            int pageSize = 10;     // Adjust this as necessary
-            string sortExpression = "ProfileId"; // Adjust this as necessary
-
-            List<UserProfile> profiles = _profileService.GetProfiles(startRowIndex, pageSize, sortExpression);
-
-            //Finally, Create the Excel File and Save it on a specified Location
-            //string FileName = "MyExcel_" + DateTime.Now.ToString("yyyy-dd-MM--HH-mm-ss") + ".xls";
-            //string FileName = "ColumnFormatting.xlsx";
-            string fileName = "Profiles_" + DateTime.Now.ToString("yyyy-MM-dd--HH-mm-ss") + ".xlsx";
-
-            // Get the path to the App_Data folder
-            string appDataPath = Server.MapPath("~/App_Data");
-            string filePath = Path.Combine(appDataPath, fileName);
-            using var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
-            using var xlsxWriter = new XlsxWriter(stream);
-            //xlsxWriter
-            //    .BeginWorksheet("Sheet 1")
-            //    .BeginRow().Write("Name").Write("Location").Write("Height (m)")
-            //    .BeginRow().Write("Kingda Ka").Write("Six Flags Great Adventure").Write(139)
-            //    .BeginRow().Write("Top Thrill Dragster").Write("Cedar Point").Write(130)
-            //    .BeginRow().Write("Superman: Escape from Krypton").Write("Six Flags Magic Mountain").Write(126);
-            var blueStyle = new XlsxStyle(XlsxFont.Default.With(Color.White), new XlsxFill(Color.FromArgb(0, 0x45, 0x86)), XlsxBorder.None, XlsxNumberFormat.General, XlsxAlignment.Default);
-
-            // Create an instance of Random
-            Random rnd = new Random();
-
-            xlsxWriter
-                .BeginWorksheet("Sheet 1", columns: new[]
-                {
-                XlsxColumn.Formatted(count: 2, width: 20),
-                XlsxColumn.Unformatted(3),
-                XlsxColumn.Formatted(width: 9),
-                XlsxColumn.Formatted(hidden: true, width: 0)
-                });
-            for (var i = 0; i < 10; i++)
+            try
             {
-                xlsxWriter.BeginRow();
-                for (var j = 0; j < 10; j++)
-                    xlsxWriter.Write(rnd.Next());
+                int startRowIndex = 0; // Adjust this as necessary
+                int pageSize = 10;     // Adjust this as necessary
+                string sortExpression = "ProfileId"; // Adjust this as necessary
+
+                List<UserProfile> profiles = _profileService.GetProfiles(startRowIndex, pageSize, sortExpression);
+
+                string fileName = "Profiles_" + DateTime.Now.ToString("yyyy-MM-dd--HH-mm-ss") + ".xlsx";
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    using (var xlsxWriter = new XlsxWriter(memoryStream))
+                    {
+                        var headerStyle = new XlsxStyle(
+                            new XlsxFont("Segoe UI", 9, Color.White, bold: true),
+                            new XlsxFill(Color.FromArgb(0, 0x45, 0x86)),
+                            XlsxBorder.None,
+                            XlsxNumberFormat.General,
+                            XlsxAlignment.Default
+                        );
+
+                        var cellStyle = new XlsxStyle(
+                            XlsxFont.Default,
+                            XlsxFill.None,
+                            XlsxBorder.None,
+                            XlsxNumberFormat.General,
+                            XlsxAlignment.Default
+                        );
+
+                        xlsxWriter.BeginWorksheet("Profiles");
+
+                        // Write the header row
+                        xlsxWriter.BeginRow()
+                            .Write("ProfileId", headerStyle)
+                            .Write("Name", headerStyle)
+                            .Write("Address", headerStyle)
+                            .Write("Email", headerStyle)
+                            .Write("Mobile", headerStyle)
+                            .Write("IsActive", headerStyle);
+
+                        // Write the profile data
+                        foreach (var profile in profiles)
+                        {
+                            xlsxWriter.BeginRow()
+                                .Write(profile.ProfileId, cellStyle)
+                                .Write(profile.Name, cellStyle)
+                                .Write(profile.Address, cellStyle)
+                                .Write(profile.Email, cellStyle)
+                                .Write(profile.Mobile, cellStyle)
+                                .Write(profile.IsActive, cellStyle);
+                        }
+                    }
+
+                    // Set the position of the memory stream to the beginning
+                    memoryStream.Position = 0;
+
+                    // Set the response to download the file
+                    Response.Clear();
+                    Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    Response.AddHeader("Content-Disposition", "attachment; filename=" + fileName);
+
+                    // Write the memory stream to the response
+                    memoryStream.WriteTo(Response.OutputStream);
+                    Response.Flush();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (adjust this to use your logging framework)
+                System.Diagnostics.Trace.TraceError("Error exporting profiles to Excel: " + ex.Message);
+
+                // Optionally, show a user-friendly error message
+                Response.Clear();
+                Response.ContentType = "text/plain";
+                Response.Write("An error occurred while generating the Excel file. Please try again later.");
+                Response.StatusCode = 500;
+            }
+            finally
+            {
+                Response.End();
             }
         }
     }
