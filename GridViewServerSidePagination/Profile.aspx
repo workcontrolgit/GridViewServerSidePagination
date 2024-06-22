@@ -4,12 +4,23 @@
 <%@ Register Src="~/Controls/DeleteModal.ascx" TagPrefix="uc" TagName="DeleteModal" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid d-flex justify-content-end">
+        <div class="navbar-nav d-flex flex-row">
+            <div class="nav-item mr-3">
+                <asp:Button ID="btnAddProfile" runat="server" Text="Add Profile" OnClick="btnAddProfile_Click" CssClass="btn btn-link  nav-link" CausesValidation="false" />
+            </div>
+            <div class="nav-item">
+                <asp:Button ID="btnExportToExcel" runat="server" Text="Export To Excel" CssClass="btn btn-link  nav-link" CausesValidation="false" OnClick="btnExportToExcel_Click" />
+            </div>
+        </div>
+    </div>
+</nav>
+
+
     <asp:UpdatePanel ID="upnContent" runat="server">
         <ContentTemplate>
 
-            <div class="d-flex justify-content-end align-items-center mb-3">
-                <asp:Button ID="btnAddProfile" runat="server" Text="Add Profile" OnClick="btnAddProfile_Click" CssClass="btn btn-primary" CausesValidation="false" />
-            </div>
 
             <asp:GridView ID="gvProfile" DataSourceID="profileDataSource" runat="server" AutoGenerateColumns="false" OnRowDataBound="gvProfile_RowDataBound" OnRowCommand="gvProfile_RowCommand"
                 AllowPaging="true" PagerSettings-Mode="NextPreviousFirstLast" AllowSorting="true" CssClass="table table-striped table-bordered table-hover mt-3" PagerSettings-FirstPageText="First" PagerSettings-LastPageText="Last" PagerSettings-NextPageText="Next" PagerSettings-PreviousPageText="Previous" PagerSettings-Visible="True">
@@ -73,7 +84,6 @@
 
             <!-- Delete Confirmation Modal -->
             <uc:DeleteModal ID="DeleteModal" runat="server" />
-
         </ContentTemplate>
         <Triggers>
             <asp:AsyncPostBackTrigger ControlID="btnAddProfile" EventName="Click" />

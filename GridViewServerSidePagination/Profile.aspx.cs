@@ -2,6 +2,7 @@
 using AspNetWebformSample.BusinessLayer.Models;
 using AspNetWebformSample.BusinessLayer.Services;
 using System;
+using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -173,6 +174,7 @@ namespace AspNetWebformSample
             ProfileModal.InitializeAddProfileModal();
             ProfileModal.OpenModal();
         }
+
         /// <summary>
         /// Event handler for confirming deletion in a modal dialog. Deletes a profile based on the profile ID obtained from the modal, then rebinds the GridView to reflect the changes.
         /// </summary>
@@ -195,6 +197,19 @@ namespace AspNetWebformSample
             DropDownList ddlPages = (DropDownList)sender;
             int pageIndex = int.Parse(ddlPages.SelectedValue);
             gvProfile.PageIndex = pageIndex;
+        }
+
+        /// <summary>
+        /// Event handler for exporting profiles to Excel when the button is clicked.
+        /// Retrieves profiles based on startRowIndex, pageSize, and sortExpression, then exports them to Excel.
+        /// </summary>
+        protected void btnExportToExcel_Click(object sender, EventArgs e)
+        {
+            int startRowIndex = 0; // Adjust this as necessary
+            int pageSize = _profileService.GetTotalProfiles();     // Adjust this as necessary
+            string sortExpression = gvProfile.SortExpression; // Adjust this as necessary
+            List<UserProfile> profiles = _profileService.GetProfiles(startRowIndex, pageSize, sortExpression);
+            _profileService.ExportProfilesToExcel(profiles, Response);
         }
     }
 }
