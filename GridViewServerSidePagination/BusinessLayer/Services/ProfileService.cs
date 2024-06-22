@@ -1,5 +1,6 @@
 ﻿using AspNetWebformSample.BusinessLayer.Models;
 using AspNetWebformSample.DataLayer;
+using System.Collections.Generic;
 
 namespace AspNetWebformSample.BusinessLayer.Services
 {
@@ -70,6 +71,18 @@ namespace AspNetWebformSample.BusinessLayer.Services
         public int GetTotalProfiles()
         {
             return _repository.TotalRowCount(0, 0, string.Empty);
+        }
+
+        /// <summary>
+        /// Retrieves a list of user profiles.
+        /// </summary>
+        /// <param name="startRowIndex">The starting index of the profiles to retrieve.</param>
+        /// <param name="pageSize">The number of profiles to retrieve per page.</param>
+        /// <param name="sortExpression">The column to use for sorting the profiles.</param>
+        /// <returns>A list of user profiles based on the specified parameters.</returns>
+        public List<UserProfile> GetProfiles(int startRowIndex, int pageSize, string sortExpression)
+        {
+            return _repository.GetProfiles(startRowIndex, pageSize, sortExpression);
         }
     }
 }

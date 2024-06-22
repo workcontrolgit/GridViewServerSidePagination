@@ -2,7 +2,7 @@
 <siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0">
 	<siteMapNode url="~/Default.aspx" title="Home" description="Home Page">
 		<siteMapNode url="~/Profile.aspx" title="Profile" description="Your Profile">
-			<siteMapNode url="~/Profile/New.aspx" title="Export" description="Export to Excel" />
+			<siteMapNode url="~/Profile/New.aspx" title="Report" description="Report Your Profile" />
 			<siteMapNode url="~/Profile/Edit.aspx" title="Print" description="Print Your Profile" />
 		</siteMapNode>
 		<siteMapNode url="~/About.aspx" title="About" description="About Us" />

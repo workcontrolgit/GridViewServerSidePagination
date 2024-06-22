@@ -3,6 +3,8 @@ using AspNetWebformSample.BusinessLayer.Models;
 using AspNetWebformSample.BusinessLayer.Services;
 using LargeXlsx;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -202,14 +204,47 @@ namespace AspNetWebformSample
 
         protected void btnExportToExcel_Click(object sender, EventArgs e)
         {
-            using var stream = new FileStream("Basic.xlsx", FileMode.Create, FileAccess.Write);
+            int startRowIndex = 0; // Adjust this as necessary
+            int pageSize = 10;     // Adjust this as necessary
+            string sortExpression = "ProfileId"; // Adjust this as necessary
+
+            List<UserProfile> profiles = _profileService.GetProfiles(startRowIndex, pageSize, sortExpression);
+
+            //Finally, Create the Excel File and Save it on a specified Location
+            //string FileName = "MyExcel_" + DateTime.Now.ToString("yyyy-dd-MM--HH-mm-ss") + ".xls";
+            //string FileName = "ColumnFormatting.xlsx";
+            string fileName = "Profiles_" + DateTime.Now.ToString("yyyy-MM-dd--HH-mm-ss") + ".xlsx";
+
+            // Get the path to the App_Data folder
+            string appDataPath = Server.MapPath("~/App_Data");
+            string filePath = Path.Combine(appDataPath, fileName);
+            using var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
             using var xlsxWriter = new XlsxWriter(stream);
+            //xlsxWriter
+            //    .BeginWorksheet("Sheet 1")
+            //    .BeginRow().Write("Name").Write("Location").Write("Height (m)")
+            //    .BeginRow().Write("Kingda Ka").Write("Six Flags Great Adventure").Write(139)
+            //    .BeginRow().Write("Top Thrill Dragster").Write("Cedar Point").Write(130)
+            //    .BeginRow().Write("Superman: Escape from Krypton").Write("Six Flags Magic Mountain").Write(126);
+            var blueStyle = new XlsxStyle(XlsxFont.Default.With(Color.White), new XlsxFill(Color.FromArgb(0, 0x45, 0x86)), XlsxBorder.None, XlsxNumberFormat.General, XlsxAlignment.Default);
+
+            // Create an instance of Random
+            Random rnd = new Random();
+
             xlsxWriter
-                .BeginWorksheet("Sheet 1")
-                .BeginRow().Write("Name").Write("Location").Write("Height (m)")
-                .BeginRow().Write("Kingda Ka").Write("Six Flags Great Adventure").Write(139)
-                .BeginRow().Write("Top Thrill Dragster").Write("Cedar Point").Write(130)
-                .BeginRow().Write("Superman: Escape from Krypton").Write("Six Flags Magic Mountain").Write(126);
+                .BeginWorksheet("Sheet 1", columns: new[]
+                {
+                XlsxColumn.Formatted(count: 2, width: 20),
+                XlsxColumn.Unformatted(3),
+                XlsxColumn.Formatted(width: 9),
+                XlsxColumn.Formatted(hidden: true, width: 0)
+                });
+            for (var i = 0; i < 10; i++)
+            {
+                xlsxWriter.BeginRow();
+                for (var j = 0; j < 10; j++)
+                    xlsxWriter.Write(rnd.Next());
+            }
         }
     }
 }
