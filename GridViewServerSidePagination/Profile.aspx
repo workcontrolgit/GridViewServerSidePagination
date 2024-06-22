@@ -8,7 +8,9 @@
         <ContentTemplate>
 
             <div class="d-flex justify-content-end align-items-center mb-3">
+                <%--<asp:Button ID="btnExportToExcel" runat="server" Text="Export To Excel" CssClass="btn btn-primary" CausesValidation="false" OnClick="btnExportToExcel_Click" />--%>
                 <asp:Button ID="btnAddProfile" runat="server" Text="Add Profile" OnClick="btnAddProfile_Click" CssClass="btn btn-primary" CausesValidation="false" />
+                <asp:Button ID="btnExportToExcel" runat="server" Text="Export To Excel" CssClass="btn btn-primary" CausesValidation="false" OnClick="btnExportToExcel_Click" />
             </div>
 
             <asp:GridView ID="gvProfile" DataSourceID="profileDataSource" runat="server" AutoGenerateColumns="false" OnRowDataBound="gvProfile_RowDataBound" OnRowCommand="gvProfile_RowCommand"
@@ -73,7 +75,6 @@
 
             <!-- Delete Confirmation Modal -->
             <uc:DeleteModal ID="DeleteModal" runat="server" />
-
         </ContentTemplate>
         <Triggers>
             <asp:AsyncPostBackTrigger ControlID="btnAddProfile" EventName="Click" />

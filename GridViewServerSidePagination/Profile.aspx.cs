@@ -1,7 +1,9 @@
 ﻿using AspNetWebformSample.BusinessLayer.Events;
 using AspNetWebformSample.BusinessLayer.Models;
 using AspNetWebformSample.BusinessLayer.Services;
+using LargeXlsx;
 using System;
+using System.IO;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -173,6 +175,7 @@ namespace AspNetWebformSample
             ProfileModal.InitializeAddProfileModal();
             ProfileModal.OpenModal();
         }
+
         /// <summary>
         /// Event handler for confirming deletion in a modal dialog. Deletes a profile based on the profile ID obtained from the modal, then rebinds the GridView to reflect the changes.
         /// </summary>
@@ -195,6 +198,18 @@ namespace AspNetWebformSample
             DropDownList ddlPages = (DropDownList)sender;
             int pageIndex = int.Parse(ddlPages.SelectedValue);
             gvProfile.PageIndex = pageIndex;
+        }
+
+        protected void btnExportToExcel_Click(object sender, EventArgs e)
+        {
+            using var stream = new FileStream("Basic.xlsx", FileMode.Create, FileAccess.Write);
+            using var xlsxWriter = new XlsxWriter(stream);
+            xlsxWriter
+                .BeginWorksheet("Sheet 1")
+                .BeginRow().Write("Name").Write("Location").Write("Height (m)")
+                .BeginRow().Write("Kingda Ka").Write("Six Flags Great Adventure").Write(139)
+                .BeginRow().Write("Top Thrill Dragster").Write("Cedar Point").Write(130)
+                .BeginRow().Write("Superman: Escape from Krypton").Write("Six Flags Magic Mountain").Write(126);
         }
     }
 }
