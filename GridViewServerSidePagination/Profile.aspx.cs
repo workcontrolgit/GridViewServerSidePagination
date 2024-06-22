@@ -1,11 +1,8 @@
 ﻿using AspNetWebformSample.BusinessLayer.Events;
 using AspNetWebformSample.BusinessLayer.Models;
 using AspNetWebformSample.BusinessLayer.Services;
-using LargeXlsx;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -202,90 +199,17 @@ namespace AspNetWebformSample
             gvProfile.PageIndex = pageIndex;
         }
 
+        /// <summary>
+        /// Event handler for exporting profiles to Excel when the button is clicked.
+        /// Retrieves profiles based on startRowIndex, pageSize, and sortExpression, then exports them to Excel.
+        /// </summary>
         protected void btnExportToExcel_Click(object sender, EventArgs e)
         {
-            try
-            {
-                int startRowIndex = 0; // Adjust this as necessary
-                int pageSize = 10;     // Adjust this as necessary
-                string sortExpression = "ProfileId"; // Adjust this as necessary
-
-                List<UserProfile> profiles = _profileService.GetProfiles(startRowIndex, pageSize, sortExpression);
-
-                string fileName = "Profiles_" + DateTime.Now.ToString("yyyy-MM-dd--HH-mm-ss") + ".xlsx";
-
-                using (var memoryStream = new MemoryStream())
-                {
-                    using (var xlsxWriter = new XlsxWriter(memoryStream))
-                    {
-                        var headerStyle = new XlsxStyle(
-                            new XlsxFont("Segoe UI", 9, Color.White, bold: true),
-                            new XlsxFill(Color.FromArgb(0, 0x45, 0x86)),
-                            XlsxBorder.None,
-                            XlsxNumberFormat.General,
-                            XlsxAlignment.Default
-                        );
-
-                        var cellStyle = new XlsxStyle(
-                            XlsxFont.Default,
-                            XlsxFill.None,
-                            XlsxBorder.None,
-                            XlsxNumberFormat.General,
-                            XlsxAlignment.Default
-                        );
-
-                        xlsxWriter.BeginWorksheet("Profiles");
-
-                        // Write the header row
-                        xlsxWriter.BeginRow()
-                            .Write("ProfileId", headerStyle)
-                            .Write("Name", headerStyle)
-                            .Write("Address", headerStyle)
-                            .Write("Email", headerStyle)
-                            .Write("Mobile", headerStyle)
-                            .Write("IsActive", headerStyle);
-
-                        // Write the profile data
-                        foreach (var profile in profiles)
-                        {
-                            xlsxWriter.BeginRow()
-                                .Write(profile.ProfileId, cellStyle)
-                                .Write(profile.Name, cellStyle)
-                                .Write(profile.Address, cellStyle)
-                                .Write(profile.Email, cellStyle)
-                                .Write(profile.Mobile, cellStyle)
-                                .Write(profile.IsActive, cellStyle);
-                        }
-                    }
-
-                    // Set the position of the memory stream to the beginning
-                    memoryStream.Position = 0;
-
-                    // Set the response to download the file
-                    Response.Clear();
-                    Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                    Response.AddHeader("Content-Disposition", "attachment; filename=" + fileName);
-
-                    // Write the memory stream to the response
-                    memoryStream.WriteTo(Response.OutputStream);
-                    Response.Flush();
-                }
-            }
-            catch (Exception ex)
-            {
-                // Log the exception (adjust this to use your logging framework)
-                System.Diagnostics.Trace.TraceError("Error exporting profiles to Excel: " + ex.Message);
-
-                // Optionally, show a user-friendly error message
-                Response.Clear();
-                Response.ContentType = "text/plain";
-                Response.Write("An error occurred while generating the Excel file. Please try again later.");
-                Response.StatusCode = 500;
-            }
-            finally
-            {
-                Response.End();
-            }
+            int startRowIndex = 0; // Adjust this as necessary
+            int pageSize = _profileService.GetTotalProfiles();     // Adjust this as necessary
+            string sortExpression = gvProfile.SortExpression; // Adjust this as necessary
+            List<UserProfile> profiles = _profileService.GetProfiles(startRowIndex, pageSize, sortExpression);
+            _profileService.ExportProfilesToExcel(profiles, Response);
         }
     }
 }

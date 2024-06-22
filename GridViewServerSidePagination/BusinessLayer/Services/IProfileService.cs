@@ -1,5 +1,6 @@
 ﻿using AspNetWebformSample.BusinessLayer.Models;
 using System.Collections.Generic;
+using System.Web;
 
 namespace AspNetWebformSample.BusinessLayer.Services
 {
@@ -51,5 +52,12 @@ namespace AspNetWebformSample.BusinessLayer.Services
         /// <param name="sortExpression">The column to use for sorting the profiles.</param>
         /// <returns>A list of user profiles based on the specified parameters.</returns>
         List<UserProfile> GetProfiles(int startRowIndex, int pageSize, string sortExpression);
+
+        /// <summary>
+        /// Exports a list of user profiles to an Excel file and sends the file as a response.
+        /// </summary>
+        /// <param name="profiles">The list of user profiles to be exported</param>
+        /// <param name="Response">The HttpResponse object used to send the Excel file as a response</param>
+        void ExportProfilesToExcel(List<UserProfile> profiles, HttpResponse response);
     }
 }

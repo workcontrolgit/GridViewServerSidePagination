@@ -20,13 +20,33 @@ namespace AspNetWebformSample.DataLayer
         }
 
         /// <summary>
-        /// Retrieves the total row count from the database based on the provided startRowIndex, pageSize, and sortExpression.
+        /// Retrieves the total row count from the database based on the provided startRowIndex, pageSize, and sortExpression.  This is for use by the Object Data Source
         /// </summary>
         /// <param name="startRowIndex">The starting index of the row.</param>
         /// <param name="pageSize">The size of the page.</param>
         /// <param name="sortExpression">The expression used for sorting.</param>
         /// <returns>The total row count retrieved from the database.</returns>
         public int TotalRowCount(int startRowIndex, int pageSize, string sortExpression)
+        {
+            int intTotalProfile = 0;
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["YourConnectionString"].ConnectionString))
+            {
+                SqlCommand cmdSelect = new SqlCommand("Profile_Total", conn);
+                cmdSelect.CommandType = CommandType.StoredProcedure;
+                conn.Open();
+
+                SqlDataReader dataReader = cmdSelect.ExecuteReader();
+                dataReader.Read();
+                intTotalProfile = Convert.ToInt32(dataReader[0]);
+            }
+            return intTotalProfile;
+        }
+
+        /// <summary>
+        /// Retrieves the total row count from the database based on the provided startRowIndex, pageSize, and sortExpression.
+        /// </summary>
+        /// <returns>The total row count retrieved from the database.</returns>
+        public int TotalRowCount()
         {
             int intTotalProfile = 0;
             using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["YourConnectionString"].ConnectionString))
